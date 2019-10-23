@@ -9,7 +9,7 @@ function resolve(dir) {
 module.exports = {
   publicPath:
     process.env.NODE_ENV === "production"
-      ? "https://static.yladm.com/Transformers/Bruticus/prod/" + version
+      ? "https://static.yladm.com/Transformers/test/prod/" + version
       : "/",
   lintOnSave: false, // 是否使用eslint
   devServer: {
