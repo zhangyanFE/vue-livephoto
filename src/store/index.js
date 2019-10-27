@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import themeplay from './modules/themeplay';
+import livephoto from './modules/livephoto';
 
 Vue.use(Vuex);
 
@@ -11,6 +11,6 @@ export default new Vuex.Store({
     // 每个模块有自己的 state、mutation、action、getter
     // 假如我要获取city：store.state.city  -> 获取city的状态
     modules: {
-        themeplay,
+        livephoto,
     },
 });

@@ -26,12 +26,12 @@ fastClick.attach(document.body);
 Vue.use(VueAwesomeSwiper);
 
 /*图片懒加载*/
-Vue.use(VueLazyload, {
-  preLoad: 1.3,
-  error: require('@/assets/images/loading.png'),
-  loading: require('@/assets/images/loading.png'),
-  attempt: 1
-});
+// Vue.use(VueLazyload, {
+//   preLoad: 1.3,
+//   error: require('@/assets/images/loading.png'),
+//   loading: require('@/assets/images/loading.png'),
+//   attempt: 1
+// });
 
 new Vue({
   store,

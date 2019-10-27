@@ -7,9 +7,17 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: () => import("./views/home.vue"),
+      component: () => import("./views/home/index.vue"),
       meta: {
-        keepAlive: false // 不需要被缓存
+        keepAlive: true // 不需要被缓存
+      }
+    },
+    {
+      path: "/my",
+      name: "my",
+      component: () => import("./views/my/index.vue"),
+      meta: {
+        keepAlive: true // 不需要被缓存
       }
     }
   ]

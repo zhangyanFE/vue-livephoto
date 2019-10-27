@@ -7,10 +7,7 @@ function resolve(dir) {
 }
 
 module.exports = {
-  publicPath:
-    process.env.NODE_ENV === "production"
-      ? "https://static.yladm.com/Transformers/test/prod/" + version
-      : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "/h5/livephoto/" : "/",
   lintOnSave: false, // 是否使用eslint
   devServer: {
     port: 8000, // 设置端口号

@@ -6,7 +6,7 @@
     "start": "npm run serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "vue-cli-service build && gulp upload && node ./deploy.js",
+    "deploy": "vue-cli-service build && gulp upload",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
