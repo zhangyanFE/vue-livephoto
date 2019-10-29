@@ -39,6 +39,7 @@ export default {
     methods: {
         handleNavListItem(item, index) {
             this.active = index;
+            this.$emit('changeNav')
         }
     }
 }

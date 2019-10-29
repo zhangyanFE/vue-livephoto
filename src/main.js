@@ -12,6 +12,11 @@ import Hammerjs from 'hammerjs';
 import 'styles/common.less'
 import 'swiper/dist/css/swiper.css'
 
+import { Lazyload } from 'vant';
+
+// options 为可选参数，无则不传
+Vue.use(Lazyload);
+
 Vue.config.productionTip = false
 
 Vue.prototype.Hammerjs = Hammerjs;

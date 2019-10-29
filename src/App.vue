@@ -6,7 +6,7 @@
       </keep-alive>
     </transition>
     <router-view v-if="!$route.meta.keepAlive" />
-    <div class="tab-bar-box">
+    <div class="">
       <!-- <Tabbar v-model="active">
         <TabbarItem icon="home-o">
           <span>首页</span>
@@ -19,11 +19,13 @@
           <router-link to="/my" tag="span">我的</router-link>
         </TabbarItem>
       </Tabbar> -->
+      <TabBottomBar />
     </div>
   </div>
 </template>
 <script>
 import { Tabbar, TabbarItem } from "vant";
+import TabBottomBar from "@/components/tabBottomBar";
 
 export default {
   name: "index",
@@ -35,7 +37,8 @@ export default {
   },
   components: {
     Tabbar,
-    TabbarItem
+    TabbarItem,
+    TabBottomBar
   },
   watch: {
     $route(to, from) {
