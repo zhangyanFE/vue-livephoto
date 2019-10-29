@@ -12,10 +12,10 @@ import Hammerjs from 'hammerjs';
 import 'styles/common.less'
 import 'swiper/dist/css/swiper.css'
 
-import { Lazyload } from 'vant';
+import { Lazyload, ImagePreview } from 'vant';
 
 // options 为可选参数，无则不传
-Vue.use(Lazyload);
+Vue.use(Lazyload).use(ImagePreview);
 
 Vue.config.productionTip = false
 

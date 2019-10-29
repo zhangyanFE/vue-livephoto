@@ -19,6 +19,14 @@ export default new Router({
       meta: {
         keepAlive: true // 不需要被缓存
       }
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("./views/login/index.vue"),
+      meta: {
+        keepAlive: true // 不需要被缓存
+      }
     }
   ]
 });

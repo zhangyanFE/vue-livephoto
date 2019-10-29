@@ -6,7 +6,7 @@
       </keep-alive>
     </transition>
     <router-view v-if="!$route.meta.keepAlive" />
-    <div class="">
+    <div class>
       <!-- <Tabbar v-model="active">
         <TabbarItem icon="home-o">
           <span>首页</span>
@@ -18,28 +18,20 @@
         <TabbarItem icon="setting-o">
           <router-link to="/my" tag="span">我的</router-link>
         </TabbarItem>
-      </Tabbar> -->
-      <TabBottomBar />
+      </Tabbar>-->
     </div>
   </div>
 </template>
 <script>
-import { Tabbar, TabbarItem } from "vant";
-import TabBottomBar from "@/components/tabBottomBar";
-
 export default {
-  name: "index",
+  name: "home",
   data() {
     return {
       transitionName: "slide-left",
       active: 0
     };
   },
-  components: {
-    Tabbar,
-    TabbarItem,
-    TabBottomBar
-  },
+  components: {},
   watch: {
     $route(to, from) {
       const toDepth = to.path.split("/").length;

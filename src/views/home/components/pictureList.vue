@@ -1,18 +1,10 @@
-<!--
- * @Author: your name
- * @Date: 2019-10-26 21:08:05
- * @LastEditTime: 2019-10-28 20:47:06
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /vue-livephoto/src/views/home/components/pictureList.vue
- -->
 <template>
   <div class="picture-box">
     <template>
       <list
-        v-model="loading"
-        :finished="finished"
-        :error.sync="error"
+        v-model="listType.loading"
+        :finished="listType.finished"
+        :error="listType.error"
         error-text="请求失败，点击重新加载"
         finished-text="没有更多了"
         @load="onLoad"
@@ -28,20 +20,38 @@
           </div>
         </div>
       </list>
-      <!-- 图片轮播 -->
-      <div class="swiper-box" v-show="showMask" @click.stop="handlePictureMask">
-        <swiper
-          :options="swiperOption"
-          ref="mySwiper"
-          class="swiper-picture-box"
-        >
-          <swiper-slide v-for="(item, index) in pictureList" :key="index">
-            <div class="swiper-content">
-              <img :src="item" alt style="object-fit:contain" />
+      <van-image-preview
+        v-model="show"
+        :start-position="curIndex"
+        :show-index="showIndex"
+        :loop="loop"
+        :lazy-load="lazyLoad"
+        :async-close="asyncClose"
+        :images="pictureList"
+        @change="onChange"
+        @close="onClose"
+      >
+        <template v-slot:cover>
+          <div class="cover-info">
+            <div class="cover-info-left">
+              <span class="collection">
+                <i class="iconfont">&#xe61d;</i>
+                <em>收藏</em>
+              </span>
+              <span class="share">
+                <i class="iconfont">&#xe739;</i>
+                <em>分享</em>
+              </span>
             </div>
-          </swiper-slide>
-        </swiper>
-      </div>
+            <div class="cover-info-center">
+              <p>可长按保存图片</p>
+            </div>
+            <div class="cover-info-right">
+              <i @click.stop="handleCloseClick"></i>
+            </div>
+          </div>
+        </template>
+      </van-image-preview>
     </template>
     <!-- <div class="no-data">
       <i></i>
@@ -60,68 +70,65 @@ export default {
         return [];
       }
     },
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    finished: {
-      type: Boolean,
-      default: false
-    },
-    error: {
-      type: Boolean,
-      default: false
+    listType: {
+      type: Object,
+      default: () => {
+        return {
+          loading: false,
+          finished: false,
+          error: false
+        };
+      }
     }
   },
   components: {
     List,
     ImagePreview
   },
+  computed: {
+    pictureListLen() {
+      return this.pictureList.length;
+    }
+  },
   data() {
     return {
-      loadings: this.loading,
       show: false,
+      loop: false,
+      lazyLoad: true,
+      showIndex: false,
+      asyncClose: false,
       index: 0,
-      initialSlide: 1,
-      showMask: false,
-      swiperOption: {
-        speed: 500,
-        loop: false,
-        threshold: 8,
-        observer: true,
-        observeParents: true,
-        debugger: true,
-        notNextTick: true,
-        realIndex: 1,
-        onSlideChangeEnd: function(swiper) {
-          console.log(swiper.activeIndex)
-        }
-      }
+      curIndex: 0
     };
   },
   methods: {
     onLoad() {
-      this.$emit("onLoad", this.loading);
+      this.$emit("onLoad");
     },
     onChange(index) {
       this.index = index;
     },
-    handlePictureMask() {
-      this.showMask = false;
+    onClose(item) {
+      console.log(item);
+    },
+    handleCloseClick() {
+      this.show = false;
     },
     handleClick(item, index) {
-      ImagePreview({
-        images: this.pictureList,
-        startPosition: index,
-        lazyLoad: true,
-        showIndex: false,
-        onChange(i) {
-          console.log(i);
-        },
-        onClose(index) {
-          console.log(index);
-        }
-      });
+      this.show = true;
+      this.curIndex = index;
+      // ImagePreview({
+      //   images: this.pictureList,
+      //   startPosition: index,
+      //   lazyLoad: true,
+      //   showIndex: false,
+      //   onChange(i) {
+      //     console.log(i);
+      //   },
+      //   onClose(index) {
+      //     console.log(index);
+      //   }
+      // });
     }
   }
 };
@@ -151,6 +158,45 @@ $rem: 75;
         height: conver(110);
         border-radius: conver(4);
         background: #f9f9f9;
+      }
+    }
+  }
+  /* 图片预览上方信息 */
+  .cover-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: #fff;
+    font-family: SourceHanSansCN;
+    font-weight: 400;
+    margin-top: conver(15);
+    &-left {
+      padding-left: conver(17);
+      span {
+        display: inline-block;
+        &:not(:last-child) {
+          padding-right: conver(26);
+        }
+        i {
+          display: block;
+          font-size: conver(28);
+          text-align: center;
+        }
+      }
+    }
+    &-center {
+      padding-left: conver(50);
+    }
+    &-right {
+      padding-left: conver(55);
+      i {
+        display: inline-block;
+        width: conver(28);
+        height: conver(28);
+        background: url("../images/close-icon.png") no-repeat;
+        background-size: conver(28);
+        vertical-align: middle;
       }
     }
   }

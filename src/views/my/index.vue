@@ -48,14 +48,15 @@
         </div>
       </div>
     </div>
+    <tab-bottom-bar />
   </div>
 </template>
 <script>
-import { Tab, Tabs } from "vant";
+import TabBottomBar from "@/components/TabBottomBar";
+
 export default {
   components: {
-    Tab,
-    Tabs
+    TabBottomBar,
   },
   mounted() {},
   activated() {

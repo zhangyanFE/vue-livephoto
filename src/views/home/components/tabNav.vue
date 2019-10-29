@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2019-10-26 17:32:35
- * @LastEditTime: 2019-10-27 12:24:33
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /vue-livephoto/src/views/home/components/tabNav.vue
- -->
 <template>
   <div class="tab-nav-box">
     <div class="tab-nav">
@@ -16,7 +8,7 @@
         @click="handleNavListItem(item, index)"
       >{{item}}</div>
       <div class="tab-more">
-        <i class="iconfont">&#xe757;</i>
+        <i class="iconfont">&#xe612;</i>
       </div>
     </div>
   </div>
