@@ -19,6 +19,7 @@ $rem: 75;
   position: fixed;
   bottom: conver(40);
   right: conver(15);
+  z-index: 2;
   .widget {
     width: conver(50);
     height: conver(50);

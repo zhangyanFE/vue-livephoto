@@ -1,28 +1,30 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store/index'
-import fastClick from 'fastclick'
-import VueLazyload from 'vue-lazyload'
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-import VueMoment from 'vue-moment'
-import Hammerjs from 'hammerjs';
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store/index";
+import fastClick from "fastclick";
+import VueLazyload from "vue-lazyload";
+import VueAwesomeSwiper from "vue-awesome-swiper";
+import VueMoment from "vue-moment";
+import Hammerjs from "hammerjs";
 
 // 公共样式
-import 'styles/common.less'
-import 'swiper/dist/css/swiper.css'
+import "styles/common.less";
+import "swiper/dist/css/swiper.css";
 
-import { Lazyload, ImagePreview } from 'vant';
+import { Lazyload, ImagePreview, Popup } from "vant";
 
 // options 为可选参数，无则不传
-Vue.use(Lazyload).use(ImagePreview);
+Vue.use(Lazyload)
+  .use(ImagePreview)
+  .use(Popup);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 Vue.prototype.Hammerjs = Hammerjs;
 
 // 时间格式化插件
-Vue.use(VueMoment)
+Vue.use(VueMoment);
 
 // 事件处理
 fastClick.attach(document.body);
@@ -42,4 +44,4 @@ new Vue({
   store,
   router,
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");

@@ -7,6 +7,7 @@
       <picture-list
         @onLoad="onLoad"
         :listType="listType"
+        :previewImgList="previewImgList"
         :pictureList="pictureList"
       />
       <!-- 小部件 -->
@@ -16,6 +17,7 @@
   </div>
 </template>
 <script>
+import data from "@/mock/index";
 import TabBottomBar from "@/components/TabBottomBar";
 import Banner from "./components/Banner";
 import TabNav from "./components/TabNav";
@@ -28,6 +30,7 @@ export default {
     return {
       navList: ["上海站", "天津站", "广州站", "郑州站", "杭州站"],
       pictureList: [],
+      previewImgList: [],
       listType: {
         loading: false,
         finished: false,
@@ -62,25 +65,29 @@ export default {
     getList() {
       // 异步更新数据
       try {
+        this.pictureList = data;
+        for (let index = 0; index < this.pictureList.length; index++) {
+          this.previewImgList.push(this.pictureList[index].src);
+        }
         setTimeout(() => {
           for (let i = 0; i < 10; i++) {
-            if (i % 4 == 0) {
-              this.pictureList.push(
-                "https://image1.suning.cn/uimg/cms/img/157226502113221969.jpg?format=_is_1242w_610h"
-              );
-            } else {
-              this.pictureList.push(
-                "https://oss.suning.com/aps/aps_learning/iwogh/2019/10/28/20/iwoghBannerPicture/88b2e809944940d2ba4a7a81ae82b4bd.png?format=_is_1242w_610h"
-              );
-            }
+            // if (i % 4 == 0) {
+            //   this.pictureList.push(
+            //     "https://s.plusx.cn/plus/immediate/52470349/20190803151500688/AM_06909.JPG?imageView2/0/w/1600/h/3000/q/85&sign=b98b48e2e9d73e2b8fae91c9875fae6f&t=5db96a0c"
+            //   );
+            // } else {
+            //   this.pictureList.push(
+            //     "https://s.plusx.cn/plus/immediate/52470349/20190803140709603/AM_06901.JPG?imageView2/0/w/1600/h/3000/q/85&sign=99a3b26667efb1682097ac8fd9bd96ab&t=5db96a0c"
+            //   );
+            // }
           }
           // 加载状态结束
-          this.listType.loading = false;
+          // this.listType.loading = false;
 
           // 数据全部加载完成
-          if (this.pictureList.length >= 100) {
-            this.listType.finished = true;
-          }
+          // if (this.pictureList.length >= 200) {
+          //   this.listType.finished = true;
+          // }
         }, 500);
       } catch (error) {
         this.listType.error = true;

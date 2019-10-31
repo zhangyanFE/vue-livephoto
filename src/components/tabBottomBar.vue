@@ -29,6 +29,7 @@ $rem: 75;
   position: fixed;
   bottom: 0;
   left: 0;
+  z-index: 2;
   width: 100%;
   height: conver(49);
   background: #fff;

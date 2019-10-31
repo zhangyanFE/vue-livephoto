@@ -9,14 +9,23 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
+        <div>{{puzzleState}}</div>
+
         <div class="picture-list">
           <div
             class="picture-list-item"
             v-for="(item, index) in pictureList"
             :key="index"
+            :type="item.w"
             @click="handleClick(item, index)"
           >
-            <img v-lazy="item" alt="img" />
+            <div class="img" v-lazy="item.src" :style="`backgroundImage:url(${item.src})`">
+              <div class="picture-select" v-show="puzzleState">
+                <div :class="['picture-select-tag', item.selected && 'selected']">
+                  <span>{{selectedNum}}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </list>
@@ -25,16 +34,15 @@
         :start-position="curIndex"
         :show-index="showIndex"
         :loop="loop"
-        :lazy-load="lazyLoad"
         :async-close="asyncClose"
-        :images="pictureList"
+        :images="previewImgList"
         @change="onChange"
         @close="onClose"
       >
         <template v-slot:cover>
           <div class="cover-info">
             <div class="cover-info-left">
-              <span class="collection">
+              <span class="collection" :type="pictureList[index].w">
                 <i class="iconfont">&#xe61d;</i>
                 <em>收藏</em>
               </span>
@@ -60,10 +68,17 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import { List, ImagePreview } from "vant";
 
 export default {
   props: {
+    previewImgList: {
+      type: Array,
+      default: () => {
+        return [];
+      }
+    },
     pictureList: {
       type: Array,
       default: () => {
@@ -86,8 +101,16 @@ export default {
     ImagePreview
   },
   computed: {
+    ...mapState({
+      puzzleState: state => state.livephoto.puzzleState
+    }),
     pictureListLen() {
       return this.pictureList.length;
+    }
+  },
+  watch: {
+    selected(newData) {
+      this.selected = newData;
     }
   },
   data() {
@@ -97,6 +120,8 @@ export default {
       lazyLoad: true,
       showIndex: false,
       asyncClose: false,
+      selected: false, // 当前选中的项
+      selectedNum: 1, // 选中图片个数
       index: 0,
       curIndex: 0
     };
@@ -115,20 +140,16 @@ export default {
       this.show = false;
     },
     handleClick(item, index) {
-      this.show = true;
-      this.curIndex = index;
-      // ImagePreview({
-      //   images: this.pictureList,
-      //   startPosition: index,
-      //   lazyLoad: true,
-      //   showIndex: false,
-      //   onChange(i) {
-      //     console.log(i);
-      //   },
-      //   onClose(index) {
-      //     console.log(index);
-      //   }
-      // });
+      if (!this.puzzleState) {
+        this.show = true;
+        this.curIndex = this.index = index;
+      } else {
+        if (item.selected) {
+          item.selected = false;
+        } else {
+          item.selected = true;
+        }
+      }
     }
   }
 };
@@ -147,10 +168,54 @@ $rem: 75;
       width: conver(110);
       height: conver(110);
       box-sizing: border-box;
-      margin-right: conver(7);
       margin-bottom: conver(9);
-      &:nth-child(3n) {
-        margin-right: 0;
+      &:not(:nth-child(3n)) {
+        margin-right: conver(7);
+      }
+      .img {
+        position: relative;
+        width: 100%;
+        padding-top: 100%;
+        background-color: #f2f2f2;
+        box-sizing: border-box;
+        background-repeat: no-repeat;
+        background-position: 50% 30%;
+        background-size: cover;
+        border-radius: conver(4);
+        .picture-select {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          border: 0.04rem solid transparent;
+          font-size: conver(14);
+          font-family: SourceHanSansCN;
+          font-weight: bold;
+          text-align: center;
+          line-height: conver(20);
+          &-tag {
+            position: absolute;
+            top: conver(8);
+            right: conver(8);
+            width: conver(21);
+            height: conver(21);
+            background: url("../images/select-icon.png") no-repeat;
+            background-size: conver(21) auto;
+            span {
+              position: relative;
+              z-index: -1;
+            }
+            &.selected {
+              background: url("../images/selected-icon.png") no-repeat;
+              background-size: conver(21) auto;
+              /* z-index: 1;
+              color: #2a76fd;
+              background: #fff;
+              border-radius: 50%; */
+            }
+          }
+        }
       }
       img {
         display: block;

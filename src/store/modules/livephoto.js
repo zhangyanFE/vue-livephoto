@@ -3,23 +3,26 @@ import { getUrlParams, decrypt } from "@/lib/util";
 
 // initial state
 const state = {
-  prePlaySrcData: {} //预缓存视频地址
+  puzzleState: false
 };
+
 let pageNum = 0; // 分页页数
+
 // getters
 const getters = {};
 
 // actions
 const actions = {
-
+  changePuzzleState({ commit }) {
+    commit("changePuzzleState", changePuzzleState);
+  }
 };
 
 // mutations
 const mutations = {
-  //存储小视频列表数据
-  set_listItem_data(state, val) {
-    state.ugcListItem = val;
-  },
+  changePuzzleState(state, puzzleState) {
+    state.puzzleState = puzzleState;
+  }
 };
 
 // 命名空间：默认情况下，模块内部的 action、mutation 和 getter 是注册在全局命名空间的——这样

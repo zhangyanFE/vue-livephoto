@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2019-10-25 19:52:22
- * @LastEditTime: 2019-10-29 11:23:58
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /vue-livephoto/src/views/my/index.vue
- -->
 <template>
   <div class="wrapper">
     <div class="user-bg"></div>
@@ -16,39 +8,17 @@
         <span>轻语素纱月初凉</span>
       </div>
       <div class="my-list">
-        <div class="list-item">
-          <i class="icon-1"></i>
-          <span>相册收藏</span>
-          <i class="arrow-icon"></i>
-        </div>
-        <div class="list-item">
-          <i class="icon-2"></i>
-          <span>人脸识别</span>
-          <i class="arrow-icon"></i>
-        </div>
-        <div class="list-item">
-          <i class="icon-3"></i>
-          <span>我收藏的照片</span>
-          <i class="arrow-icon"></i>
-        </div>
-        <div class="list-item">
-          <i class="icon-4"></i>
-          <span>数据分析</span>
-          <i class="arrow-icon"></i>
-        </div>
-        <div class="list-item">
-          <i class="icon-5"></i>
-          <span>预约云摄影服务</span>
-          <i class="arrow-icon"></i>
-        </div>
-        <div class="list-item">
-          <i class="icon-6"></i>
-          <span>关于我们</span>
-          <i class="arrow-icon"></i>
+        <div class="list-item" v-for="(item, index) in list" :key="index">
+          <router-link tag="div" :to="item.path">
+            <i :class="`icon-${item.index}`"></i>
+            <span>{{item.title}}</span>
+            <i class="arrow-icon"></i>
+          </router-link>
         </div>
       </div>
     </div>
     <tab-bottom-bar />
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -56,7 +26,43 @@ import TabBottomBar from "@/components/TabBottomBar";
 
 export default {
   components: {
-    TabBottomBar,
+    TabBottomBar
+  },
+  data() {
+    return {
+      list: [
+        {
+          title: "相册收藏",
+          index: 1,
+          path: '/my/collection'
+        },
+        {
+          title: "人脸识别",
+          index: 2,
+          path: '/'
+        },
+        {
+          title: "我收藏的照片",
+          index: 3,
+          path: '/'
+        },
+        {
+          title: "数据分析",
+          index: 4,
+          path: '/'
+        },
+        {
+          title: "预约云摄影服务",
+          index: 5,
+          path: '/'
+        },
+        {
+          title: "关于我们",
+          index: 6,
+          path: '/my/about'
+        }
+      ]
+    };
   },
   mounted() {},
   activated() {
