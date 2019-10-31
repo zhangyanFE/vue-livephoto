@@ -3,7 +3,7 @@
     <banner />
     <tab-nav @changeNav="handleChangeNav" :navList="navList" />
     <div class="content-box">
-      <screen />
+      <screen @popupOpen="popupOpen" @popupClose="popupClose" @checkPuzzle="checkPuzzle" />
       <picture-list
         @onLoad="onLoad"
         :listType="listType"
@@ -11,14 +11,19 @@
         :pictureList="pictureList"
       />
       <!-- 小部件 -->
-      <widget />
+      <widget v-show="!puzzleState" />
     </div>
-    <tab-bottom-bar />
+    <!-- 拼图操作按钮 -->
+    <puzzle-btn v-show="puzzleState" @puzzleCancel="puzzleCancel" @puzzleSure="puzzleSure" />
+    <!-- 底部tabBar -->
+    <tab-bottom-bar v-show="!puzzleState" />
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from "vuex";
 import data from "@/mock/index";
 import TabBottomBar from "@/components/TabBottomBar";
+import PuzzleBtn from "@/components/PuzzleBtn";
 import Banner from "./components/Banner";
 import TabNav from "./components/TabNav";
 import Screen from "./components/Screen";
@@ -40,6 +45,7 @@ export default {
   },
   components: {
     TabBottomBar,
+    PuzzleBtn,
     TabNav,
     Banner,
     Screen,
@@ -51,6 +57,11 @@ export default {
       this.pictureList = newData;
     }
   },
+  computed: {
+    ...mapState({
+      puzzleState: state => state.livephoto.puzzleState
+    })
+  },
   mounted() {},
   activated() {
     console.log("首页");
@@ -59,6 +70,7 @@ export default {
     console.log("离开首页");
   },
   methods: {
+    ...mapMutations("livephoto", ["changePuzzleState"]),
     onLoad() {
       this.getList();
     },
@@ -98,7 +110,34 @@ export default {
       this.listType.loading = true;
       this.listType.finished = false;
       this.getList();
-    }
+    },
+    // puzzleItemClick() {
+    //   if (this.puzzleState) {
+    //     this.changePuzzleState(false);
+    //   } else {
+    //     this.changePuzzleState(true);
+    //   }
+    // },
+    puzzleCancel() {
+      // 取消拼图
+      this.changePuzzleState(false);
+    },
+    puzzleSure() {
+      // 选完图片，开始拼图操作
+      this.$toast({
+        message: "拼图中...",
+        forbidClick: true,
+        loadingType: "spinner",
+        duration: 1000,
+      });
+      console.log("拼图中...");
+    },
+    checkPuzzle() {
+      // 选择拼图类型
+      this.changePuzzleState(true);
+    },
+    popupOpen() {},
+    popupClose() {}
   }
 };
 </script>

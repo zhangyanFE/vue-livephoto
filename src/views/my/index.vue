@@ -39,22 +39,22 @@ export default {
         {
           title: "人脸识别",
           index: 2,
-          path: '/'
+          path: '/my/face'
         },
         {
           title: "我收藏的照片",
           index: 3,
-          path: '/'
+          path: '/my/album'
         },
         {
           title: "数据分析",
           index: 4,
-          path: '/'
+          path: '/my/data'
         },
         {
           title: "预约云摄影服务",
           index: 5,
-          path: '/'
+          path: '/my/appointment'
         },
         {
           title: "关于我们",

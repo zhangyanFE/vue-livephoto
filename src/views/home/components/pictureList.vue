@@ -200,19 +200,19 @@ $rem: 75;
             right: conver(8);
             width: conver(21);
             height: conver(21);
-            background: url("../images/select-icon.png") no-repeat;
+            background: url("../images/select-new-icon.png") no-repeat;
             background-size: conver(21) auto;
             span {
               position: relative;
               z-index: -1;
             }
             &.selected {
-              background: url("../images/selected-icon.png") no-repeat;
-              background-size: conver(21) auto;
-              /* z-index: 1;
+              /* background: url("../images/selected-icon.png") no-repeat;
+              background-size: conver(21) auto; */
+              z-index: 1;
               color: #2a76fd;
               background: #fff;
-              border-radius: 50%; */
+              border-radius: 50%;
             }
           }
         }

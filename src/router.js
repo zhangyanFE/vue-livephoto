@@ -32,12 +32,48 @@ const router = new Router({
       }
     },
     {
+      path: "/my/face",
+      name: "faceRecognition",
+      component: () => import("./views/my/faceRecognition/index.vue"),
+      meta: {
+        keepAlive: true,
+        title: "人脸识别"
+      }
+    },
+    {
       path: "/my/about",
       name: "about",
       component: () => import("./views/my/about/index.vue"),
       meta: {
         keepAlive: true,
         title: "关于我们"
+      }
+    },
+    {
+      path: "/my/appointment",
+      name: "appointment",
+      component: () => import("./views/my/appointment/index.vue"),
+      meta: {
+        keepAlive: true,
+        title: "预约云摄影服务"
+      }
+    },
+    {
+      path: "/my/data",
+      name: "dataAnalysis",
+      component: () => import("./views/my/dataAnalysis/index.vue"),
+      meta: {
+        keepAlive: true,
+        title: "数据分析"
+      }
+    },
+    {
+      path: "/my/album",
+      name: "albumCollection",
+      component: () => import("./views/my/albumCollection/index.vue"),
+      meta: {
+        keepAlive: true,
+        title: "我收藏的照片"
       }
     },
     {

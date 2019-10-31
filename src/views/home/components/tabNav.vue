@@ -8,7 +8,8 @@
         @click="handleNavListItem(item, index)"
       >{{item}}</div>
       <div class="tab-more">
-        <i class="iconfont">&#xe612;</i>
+        <!-- <i class="iconfont">&#xe612;</i> -->
+        <van-icon name="arrow-down" />
       </div>
     </div>
   </div>
@@ -97,6 +98,7 @@ $rem: 75;
       box-shadow: 0px 4px 4px 0px rgba(127, 127, 127, 0.09);
       i {
         padding-left: conver(8);
+        padding-top: conver(8);
         font-size: conver(25);
       }
     }

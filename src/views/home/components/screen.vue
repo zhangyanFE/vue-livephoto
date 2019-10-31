@@ -5,11 +5,40 @@
         <span>1000人已审阅</span>
       </div>
       <div class="screen-tab-right">
-        <span class="screen--tab-right--puzzle" @click="handlePuzzleClick">拼图</span>
+        <span class="screen-tab-right--puzzle" @click="handlePuzzleClick">拼图</span>
         <em></em>
-        <span class="screen--tab-right--screen" @click="handleScreenClick">筛选</span>
+        <span class="screen-tab-right--screen" @click="handleScreenClick">筛选</span>
       </div>
     </div>
+
+    <!-- 选择拼图类型弹窗组件 -->
+    <van-popup
+      v-model="showPuzzlePopup"
+      closeable
+      :close-icon="setCloseIcon"
+      :close-on-click-overlay="closeClickOverlay"
+      @open="handleOpen"
+      @close="handleClose"
+    >
+      <div class="puzzle-popup">
+        <p class="puzzle-type-title">请选择拼图样式</p>
+        <ul>
+          <li @click="handleCheckLongPuzzle">
+            <div class="col-all-center long">
+              <img :src="puzzelLongImg" alt="长图" />
+            </div>
+            <span>长图</span>
+          </li>
+          <li @click="handleCheckGridPuzzle">
+            <div class="col-all-center ninegrid">
+              <img :src="puzzleGridImg" alt="九宫格" />
+            </div>
+            <span>九宫格</span>
+          </li>
+        </ul>
+      </div>
+    </van-popup>
+    
     <!-- 筛选弹窗组件 -->
     <van-popup v-model="showPopup" closeable :close-icon="setCloseIcon">
       <div class="popup-box">
@@ -30,12 +59,13 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState } from "vuex";
-import { closeIconImg } from "../images/img";
+import { closeIconImg, puzzelLong, puzzleGrid } from "@/assets/images/img";
 export default {
   data() {
     return {
       showPopup: false,
+      showPuzzlePopup: false,
+      closeClickOverlay: false,
       curIndex: 0,
       screenList: [
         {
@@ -93,22 +123,32 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      puzzleState: state => state.livephoto.puzzleState
-    }),
     setCloseIcon() {
       return closeIconImg;
+    },
+    puzzelLongImg() {
+      return puzzelLong;
+    },
+    puzzleGridImg() {
+      return puzzleGrid;
     }
   },
   methods: {
-    ...mapMutations("livephoto", ["changePuzzleState"]),
+    handleOpen() {
+      this.$emit("popupOpen");
+    },
+    handleClose() {
+      this.$emit("popupClose");
+    },
+    handleCheckLongPuzzle() {
+      this.showPuzzlePopup = false;
+      this.$emit("checkPuzzle");
+    },
+    handleCheckGridPuzzle() {
+      this.$toast("九宫格拼图敬请期待~");
+    },
     handlePuzzleClick() {
-      // 设置拼图模式
-      if (this.puzzleState) {
-        this.changePuzzleState(false);
-      } else {
-        this.changePuzzleState(true);
-      }
+      this.showPuzzlePopup = true;
     },
     handleScreenClick() {
       this.showPopup = true;
@@ -150,6 +190,51 @@ $rem: 75;
         background: #d2d2d2;
         margin: 0 conver(8);
         vertical-align: bottom;
+      }
+    }
+  }
+  /* 选择拼图弹窗 */
+  .puzzle-popup {
+    width: conver(280);
+    height: conver(250);
+    .puzzle-type-title {
+      font-size: conver(14);
+      font-family: SourceHanSansCN;
+      font-weight: 400;
+      color: #000;
+      text-align: center;
+      padding: conver(20) 0;
+    }
+    ul {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      li {
+        width: conver(120);
+        height: conver(120);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .col-all-center {
+          &.long {
+            height: conver(200);
+          }
+          &.ninegrid {
+            /* height: conver(240); */
+          }
+        }
+        span {
+          color: #000;
+          font-weight: 600;
+          font-size: 0.28rem;
+          margin: 0.2rem 0 0;
+        }
+        img {
+          width: 1.9rem;
+        }
       }
     }
   }
