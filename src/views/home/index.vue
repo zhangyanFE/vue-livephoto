@@ -11,7 +11,12 @@
     <banner />
     <tab-nav @changeNav="handleChangeNav" :navList="navList" />
     <div class="content-box">
-      <screen @popupOpen="popupOpen" @popupClose="popupClose" @checkPuzzle="checkPuzzle" />
+      <screen
+        @popupOpen="popupOpen"
+        @popupClose="popupClose"
+        @checkPuzzle="checkPuzzle"
+        @pictureListLayout="pictureListLayout"
+      />
       <picture-list
         @onLoad="onLoad"
         @pictureSelected="pictureSelected"
@@ -85,7 +90,7 @@ export default {
     console.log("离开首页");
   },
   methods: {
-    ...mapMutations("livephoto", ["changePuzzleState"]),
+    ...mapMutations("livephoto", ["changePuzzleState", "changePictureLayout"]),
     onLoad() {
       this.getList();
     },
@@ -136,7 +141,7 @@ export default {
     },
     puzzleCancel() {
       // 取消拼图&选中的照片
-      this.selectedCountList.length = 0;
+      this.clearPuzzleResult();
       this.pictureSelectedListGroup();
       this.changePuzzleState(false);
     },
@@ -145,13 +150,39 @@ export default {
       // 2、选完照片，开始拼图操作
       if (this.selectedCountList.length >= 1) {
         this.toast("拼图中...");
+        this.clearPuzzleResult();
+        // 合成照片...
       } else {
         this.toast("请选择照片");
       }
     },
+    clearPuzzleResult() {
+      this.selectedCountList.length = 0;
+      this.selectedCountList = [];
+    },
     checkPuzzle() {
       // 选择拼图类型
       this.changePuzzleState(true);
+    },
+    pictureListLayout(result) {
+      // console.log(result);
+      let { item, key, index } = result;
+      switch (index) {
+        case 0:
+          console.log(item[key]);
+          break;
+        case 1:
+          console.log(item[key]);
+
+          break;
+        case 2:
+          let curIndex = item[key].curIndex;
+          this.changePictureLayout(`column-${curIndex}`);
+          break;
+
+        default:
+          break;
+      }
     },
     popupOpen() {},
     popupClose() {},

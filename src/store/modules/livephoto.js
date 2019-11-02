@@ -3,7 +3,8 @@ import { getUrlParams, decrypt } from "@/lib/util";
 
 // initial state
 const state = {
-  puzzleState: false
+  puzzleState: false,
+  pictureLayoutStyle: 'column-2', // 默认照片列表展示两列
 };
 
 let pageNum = 0; // 分页页数
@@ -22,6 +23,9 @@ const actions = {
 const mutations = {
   changePuzzleState(state, puzzleState) {
     state.puzzleState = puzzleState;
+  },
+  changePictureLayout(state, pictureLayoutStyle) {
+    state.pictureLayoutStyle = pictureLayoutStyle;
   }
 };
 

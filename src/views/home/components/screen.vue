@@ -51,10 +51,10 @@
           <div class="popup-item-title">{{item.title}}</div>
           <div class="popup-item">
             <span
-              :class="[subItem.isSelected && 'active']"
+              :class="[index == 0 && curIndex0 == key && 'active', index == 1 && curIndex1 == key && 'active', index == 2 && curIndex2 == key && 'active']"
               v-for="(subItem, key) in item.list"
               :key="key"
-              @click="handleItemClick(item.list, key)"
+              @click="handleItemClick(item.list, key, index)"
             >{{subItem.title}}</span>
           </div>
         </div>
@@ -71,7 +71,10 @@ export default {
       showPopup: false,
       showPuzzlePopup: false,
       closeClickOverlay: false,
-      curIndex: 0,
+      parentIndex: -1,
+      curIndex0: 0, // 排序
+      curIndex1: 0, // 类别
+      curIndex2: 0, // 展示
       screenList: [
         {
           title: "排序",
@@ -112,14 +115,17 @@ export default {
           list: [
             {
               title: "两列",
+              curIndex: 2,
               isSelected: false
             },
             {
               title: "三列",
+              curIndex: 3,
               isSelected: false
             },
             {
-              title: "撕裂",
+              title: "四列",
+              curIndex: 4,
               isSelected: false
             }
           ]
@@ -153,7 +159,7 @@ export default {
       this.$emit("checkPuzzle");
     },
     handleCheckGridPuzzle() {
-      this.$toast("九宫格拼图敬请期待~");
+      this.toast("九宫格拼图敬请期待~");
     },
     handlePuzzleClick() {
       this.showPuzzlePopup = true;
@@ -161,13 +167,34 @@ export default {
     handleScreenClick() {
       this.showPopup = true;
     },
-    handleItemClick(item, index) {
-      if (item[index].isSelected) {
-        item[index].isSelected = false;
-      } else {
-        item[index].isSelected = true;
+    handleItemClick(item, key, index) {
+      // if (this.screenList[index].list[key].isSelected) {
+      //   this.screenList[index].list[key].isSelected = false;
+      // } else {
+      //   this.screenList[index].list[key].isSelected = true;
+      // }
+      switch (index) {
+        case 0:
+          this.curIndex0 = key;
+          break;
+        case 1:
+          this.curIndex1 = key;
+          break;
+        case 2:
+          this.curIndex2 = key;
+          break;
+        default:
+          break;
       }
+      this.$emit("pictureListLayout", { item, key, index });
       this.showPopup = false;
+    },
+    toast(message) {
+      this.$toast({
+        message,
+        forbidClick: true,
+        duration: 1500
+      });
     }
   }
 };

@@ -9,11 +9,9 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <div>{{puzzleState}}</div>
-
         <div class="picture-list">
           <div
-            class="picture-list-item"
+            :class="['picture-list-item', pictureLayoutStyle]"
             v-for="(item, index) in pictureList"
             :key="index"
             :type="item.w"
@@ -29,6 +27,8 @@
           </div>
         </div>
       </list>
+
+      <!-- 大图预览 -->
       <van-image-preview
         v-model="show"
         :start-position="curIndex"
@@ -101,7 +101,8 @@ export default {
   },
   computed: {
     ...mapState({
-      puzzleState: state => state.livephoto.puzzleState
+      puzzleState: state => state.livephoto.puzzleState,
+      pictureLayoutStyle: state => state.livephoto.pictureLayoutStyle
     }),
     pictureListLen() {
       return this.pictureList.length;
@@ -182,13 +183,31 @@ $rem: 75;
     overflow: hidden;
     &-item {
       float: left;
-      width: conver(110);
-      height: conver(110);
+
       box-sizing: border-box;
       margin-bottom: conver(9);
-      &:not(:nth-child(3n)) {
-        margin-right: conver(7);
+      &.column-2 {
+        width: conver(169);
+        height: conver(169);
+        &:not(:nth-child(2n)) {
+          margin-right: conver(7);
+        }
       }
+      &.column-3 {
+        width: conver(110);
+        height: conver(110);
+        &:not(:nth-child(3n)) {
+          margin-right: conver(7);
+        }
+      }
+      &.column-4 {
+        width: conver(81);
+        height: conver(81);
+        &:not(:nth-child(4n)) {
+          margin-right: conver(7);
+        }
+      }
+
       .picture-img {
         position: relative;
         width: 100%;
