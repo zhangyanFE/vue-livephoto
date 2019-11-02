@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2019-10-23 18:24:13
- * @LastEditTime: 2019-11-02 11:48:45
+ * @LastEditTime: 2019-11-02 11:51:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /vue-livephoto/src/views/home/index.vue
@@ -50,9 +50,7 @@ export default {
       navList: ["上海站", "天津站", "广州站", "郑州站", "杭州站"],
       pictureList: [],
       previewImgList: [],
-      selectedCountList: {
-          
-      },
+      selectedCountList: [],
       listType: {
         loading: false,
         finished: false,
@@ -77,7 +75,7 @@ export default {
   computed: {
     ...mapState({
       puzzleState: state => state.livephoto.puzzleState
-    }),
+    })
   },
   mounted() {},
   activated() {
@@ -138,6 +136,7 @@ export default {
     },
     puzzleCancel() {
       // 取消拼图&选中的照片
+      this.selectedCountList.length = 0;
       this.pictureSelectedListGroup();
       this.changePuzzleState(false);
     },
@@ -163,13 +162,6 @@ export default {
         duration: 1500
       });
     }
-    // puzzleItemClick() {
-    //   if (this.puzzleState) {
-    //     this.changePuzzleState(false);
-    //   } else {
-    //     this.changePuzzleState(true);
-    //   }
-    // },
   }
 };
 </script>

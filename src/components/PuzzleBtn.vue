@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2019-10-31 16:08:09
+ * @LastEditTime: 2019-11-02 12:00:55
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /vue-livephoto/src/components/PuzzleBtn.vue
+ -->
 <template>
   <div class="puzzle-operate-box">
     <div class="puzzle-button puzzle-cancel" @click="handleCancelClick">取消</div>
@@ -21,7 +29,6 @@ export default {
   },
   methods: {
     handleCancelClick() {
-      this.selectedCount = [];
       this.$emit("puzzleCancel");
     },
     handleSureClick() {

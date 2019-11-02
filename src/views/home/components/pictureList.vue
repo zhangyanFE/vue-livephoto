@@ -152,7 +152,7 @@ export default {
           this.selectedList.splice(this.selectedList.indexOf(item.size), 1);
         } else {
           if (this.selectedList.length > 9) {
-            this.toast("拼图照片不能超过10張");
+            this.toast("拼图照片不能超过10张");
             return;
           }
           this.pictureList[index].selected = true;
