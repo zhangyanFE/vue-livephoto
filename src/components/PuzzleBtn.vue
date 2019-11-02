@@ -21,6 +21,7 @@ export default {
   },
   methods: {
     handleCancelClick() {
+      this.selectedCount = [];
       this.$emit("puzzleCancel");
     },
     handleSureClick() {
@@ -77,7 +78,7 @@ $rem: 75;
     border-radius: conver(22);
     .puzzle-selected-count {
       position: absolute;
-      top: conver(8);
+      top: conver(10);
       margin-left: conver(10);
       display: inline-block;
       width: conver(21);

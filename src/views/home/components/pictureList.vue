@@ -1,152 +1,166 @@
 <template>
-  <div class="wrapper">
-    <banner />
-    <tab-nav @changeNav="handleChangeNav" :navList="navList" />
-    <div class="content-box">
-      <screen @popupOpen="popupOpen" @popupClose="popupClose" @checkPuzzle="checkPuzzle" />
-      <picture-list
-        @onLoad="onLoad"
-        @pictureSelected="pictureSelected"
-        :listType="listType"
-        :previewImgList="previewImgList"
-        :pictureList="pictureList"
-      />
-      <!-- 小部件 -->
-      <widget v-if="!puzzleState" />
-    </div>
-    <!-- 拼图操作按钮 -->
-    <puzzle-btn
-      v-if="puzzleState"
-      :selectedCount="selectedCountList"
-      @puzzleCancel="puzzleCancel"
-      @puzzleSure="puzzleSure"
-    />
-    <!-- 底部tabBar -->
-    <tab-bottom-bar v-if="!puzzleState" />
+  <div class="picture-box">
+    <template>
+      <list
+        v-model="listType.loading"
+        :finished="listType.finished"
+        :error="listType.error"
+        error-text="请求失败，点击重新加载"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div>{{puzzleState}}</div>
+
+        <div class="picture-list">
+          <div
+            class="picture-list-item"
+            v-for="(item, index) in pictureList"
+            :key="index"
+            :type="item.w"
+            @click="handleClick(item, index)"
+          >
+            <div class="picture-img" v-lazy="item.src" :style="`backgroundImage:url(${item.src})`">
+              <div class="picture-select" v-if="puzzleState">
+                <div :class="['picture-select-tag', item.selected && 'selected']">
+                  <!-- <span>{{selectedNum}}</span> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </list>
+      <van-image-preview
+        v-model="show"
+        :start-position="curIndex"
+        :show-index="showIndex"
+        :loop="loop"
+        :async-close="asyncClose"
+        :images="previewImgList"
+        @change="onChange"
+        @close="onClose"
+      >
+        <template v-slot:cover>
+          <div class="cover-info">
+            <div class="cover-info-left">
+              <span class="collection" :type="pictureList[index].w">
+                <i class="iconfont">&#xe61d;</i>
+                <em>收藏</em>
+              </span>
+              <span class="share">
+                <i class="iconfont">&#xe739;</i>
+                <em>分享</em>
+              </span>
+            </div>
+            <div class="cover-info-center">
+              <p>可长按保存图片</p>
+            </div>
+            <div class="cover-info-right">
+              <i @click.stop="handleCloseClick"></i>
+            </div>
+          </div>
+        </template>
+      </van-image-preview>
+    </template>
+    <!-- <div class="no-data">
+      <i></i>
+      <p>暂无信息</p>
+    </div>-->
   </div>
 </template>
 <script>
-import { mapMutations, mapState } from "vuex";
-import data from "@/mock/index";
-import TabBottomBar from "@/components/TabBottomBar";
-import PuzzleBtn from "@/components/PuzzleBtn";
-import Banner from "./components/Banner";
-import TabNav from "./components/TabNav";
-import Screen from "./components/Screen";
-import PictureList from "./components/PictureList";
-import Widget from "./components/Widget";
-
+import { mapState } from "vuex";
+import { List, ImagePreview } from "vant";
 export default {
-  data() {
-    return {
-      navList: ["上海站", "天津站", "广州站", "郑州站", "杭州站"],
-      pictureList: [],
-      previewImgList: [],
-      selectedCountList: [],
-      listType: {
-        loading: false,
-        finished: false,
-        error: false
+  props: {
+    previewImgList: {
+      type: Array,
+      default: () => {
+        return [];
       }
-    };
+    },
+    pictureList: {
+      type: Array,
+      default: () => {
+        return [];
+      }
+    },
+    listType: {
+      type: Object,
+      default: () => {
+        return {
+          loading: false,
+          finished: false,
+          error: false
+        };
+      }
+    }
   },
   components: {
-    TabBottomBar,
-    PuzzleBtn,
-    TabNav,
-    Banner,
-    Screen,
-    PictureList,
-    Widget
-  },
-  watch: {
-    pictureList(newData, oldData) {
-      this.pictureList = newData;
-    }
+    List,
+    ImagePreview
   },
   computed: {
     ...mapState({
       puzzleState: state => state.livephoto.puzzleState
     }),
+    pictureListLen() {
+      return this.pictureList.length;
+    }
   },
-  mounted() {},
-  activated() {
-    console.log("首页");
+  watch: {
+    selected(newData) {
+      this.selected = newData;
+    }
   },
-  deactivated() {
-    console.log("离开首页");
+  data() {
+    return {
+      show: false,
+      loop: false,
+      lazyLoad: true,
+      showIndex: false,
+      asyncClose: false,
+      selected: false, // 当前选中的项
+      selectedNum: 1, // 选中图片个数
+      index: 0,
+      curIndex: 0,
+      selectedList: []
+    };
   },
   methods: {
-    ...mapMutations("livephoto", ["changePuzzleState"]),
     onLoad() {
-      this.getList();
+      this.$emit("onLoad");
     },
-    pictureSelected(selectedList) {
-      this.selectedCountList = selectedList;
+    onChange(index) {
+      this.index = index;
     },
-    pictureSelectedListGroup() {
-      for (let i = 0; i < this.pictureList.length; i++) {
-        this.pictureList[i].selected = false;
-      }
+    onClose(item) {
+      console.log(item);
     },
-    getList() {
-      // 异步更新数据
-      try {
-        this.pictureList = data;
-        for (let index = 0; index < this.pictureList.length; index++) {
-          this.previewImgList.push(this.pictureList[index].src);
-        }
-        setTimeout(() => {
-          for (let i = 0; i < 10; i++) {
-            // if (i % 4 == 0) {
-            //   this.pictureList.push(
-            //     "https://s.plusx.cn/plus/immediate/52470349/20190803151500688/AM_06909.JPG?imageView2/0/w/1600/h/3000/q/85&sign=b98b48e2e9d73e2b8fae91c9875fae6f&t=5db96a0c"
-            //   );
-            // } else {
-            //   this.pictureList.push(
-            //     "https://s.plusx.cn/plus/immediate/52470349/20190803140709603/AM_06901.JPG?imageView2/0/w/1600/h/3000/q/85&sign=99a3b26667efb1682097ac8fd9bd96ab&t=5db96a0c"
-            //   );
-            // }
-          }
-          // 加载状态结束
-          // this.listType.loading = false;
-
-          // 数据全部加载完成
-          // if (this.pictureList.length >= 200) {
-          //   this.listType.finished = true;
-          // }
-        }, 500);
-      } catch (error) {
-        this.listType.error = true;
-      }
+    handleCloseClick() {
+      this.show = false;
     },
-    handleChangeNav() {
-      this.pictureList = [];
-      this.listType.loading = true;
-      this.listType.finished = false;
-      this.getList();
-    },
-    puzzleCancel() {
-      // 取消拼图&选中的照片
-      console.log(this.selectedCountList)
-      this.pictureSelectedListGroup();
-      this.changePuzzleState(false);
-    },
-    puzzleSure() {
-      // 1、选择照片数大于1才能拼图
-      // 2、选完照片，开始拼图操作
-      if (this.selectedCountList.length >= 1) {
-        this.toast("拼图中...");
+    handleClick(item, index) {
+      if (!this.puzzleState) {
+        this.show = true;
+        this.curIndex = this.index = index;
       } else {
-        this.toast("请选择照片");
+        if (
+          this.pictureList[index].selected &&
+          this.selectedList.indexOf(item.size) != -1
+        ) {
+          this.pictureList[index].selected = false;
+          this.selectedList.splice(this.selectedList.indexOf(item.size), 1);
+        } else {
+          if (this.selectedList.length > 9) {
+            this.toast("拼图照片不能超过10張");
+            return;
+          }
+          this.pictureList[index].selected = true;
+          this.selectedList.push(item.size);
+        }
+        this.$emit("pictureSelected", this.selectedList);
       }
     },
-    checkPuzzle() {
-      // 选择拼图类型
-      this.changePuzzleState(true);
-    },
-    popupOpen() {},
-    popupClose() {},
     toast(message) {
       this.$toast({
         message,
@@ -154,25 +168,181 @@ export default {
         duration: 1500
       });
     }
-    // puzzleItemClick() {
-    //   if (this.puzzleState) {
-    //     this.changePuzzleState(false);
-    //   } else {
-    //     this.changePuzzleState(true);
-    //   }
-    // },
   }
 };
-</script>
-
+</script>>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {
   @return $n * 2 / $rem + unquote("rem");
 }
-.wrapper {
-  .content-box {
-    margin: 0 conver(15) conver(49) conver(15);
+.picture-box {
+  position: relative;
+  .picture-list {
+    overflow: hidden;
+    &-item {
+      float: left;
+      width: conver(110);
+      height: conver(110);
+      box-sizing: border-box;
+      margin-bottom: conver(9);
+      &:not(:nth-child(3n)) {
+        margin-right: conver(7);
+      }
+      .picture-img {
+        position: relative;
+        width: 100%;
+        padding-top: 100%;
+        background-color: #f2f2f2;
+        box-sizing: border-box;
+        background-repeat: no-repeat;
+        background-position: 50% 30%;
+        background-size: cover;
+        border-radius: conver(4);
+        animation: imgBox-in 0.5s;
+        animation-fill-mode: forwards;
+        @keyframes imgBox-in {
+          0% {
+            opacity: 0;
+            -webkit-transform: scale3D(0.8, 0.8, 1);
+            transform: scale3D(0.8, 0.8, 1);
+          }
+
+          to {
+            opacity: 1;
+            -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+          }
+        }
+        .picture-select {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          font-size: conver(14);
+          font-family: SourceHanSansCN;
+          font-weight: bold;
+          text-align: center;
+          line-height: conver(20);
+          &-tag {
+            position: absolute;
+            top: conver(8);
+            right: conver(8);
+            width: conver(21);
+            height: conver(21);
+            background: url("../images/select-icon.png") no-repeat;
+            background-size: conver(21) auto;
+            span {
+              position: relative;
+              z-index: -1;
+            }
+            &.selected {
+              background: url("../images/selected-icon.png") no-repeat;
+              background-size: conver(21) auto;
+              /* z-index: 1;
+              color: #2a76fd;
+              background: #fff;
+              border-radius: 50%; */
+            }
+          }
+        }
+      }
+      img {
+        display: block;
+        width: conver(110);
+        height: conver(110);
+        border-radius: conver(4);
+        background: #f9f9f9;
+      }
+    }
+  }
+  /* 图片预览上方信息 */
+  .cover-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: #fff;
+    font-family: SourceHanSansCN;
+    font-weight: 400;
+    margin-top: conver(15);
+    &-left {
+      padding-left: conver(17);
+      font-size: conver(12);
+      span {
+        display: inline-block;
+        &:not(:last-child) {
+          padding-right: conver(26);
+        }
+        i {
+          display: block;
+          font-size: conver(28);
+          text-align: center;
+        }
+      }
+    }
+    &-center {
+      padding-left: conver(50);
+      font-size: conver(13);
+    }
+    &-right {
+      padding-left: conver(85);
+      i {
+        display: inline-block;
+        width: conver(28);
+        height: conver(28);
+        background: url("../images/close-icon.png") no-repeat;
+        background-size: conver(28);
+        vertical-align: middle;
+      }
+    }
+  }
+  /* 图片轮播 */
+  .swiper-picture-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    transition-duration: 500ms;
+    .swiper-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      img {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+  }
+  /* 无数据 */
+  .no-data {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: conver(142);
+    i {
+      display: inline-block;
+      width: conver(211);
+      height: conver(116);
+      background: url("../images/no-data-icon.png") no-repeat;
+      background-size: conver(211) auto;
+    }
+    p {
+      color: #666666;
+      font-size: conver(13);
+      font-family: SourceHanSansCN;
+      font-weight: 400;
+      text-align: center;
+      margin-top: conver(6);
+    }
   }
 }
 </style>
