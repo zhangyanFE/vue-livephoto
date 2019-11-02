@@ -4,6 +4,7 @@ gulpfile.js
 ftpConfig.js
 deploy.js
 bin/
+ftpConfig.js
 
 
 # local env files

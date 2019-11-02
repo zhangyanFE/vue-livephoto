@@ -4,7 +4,7 @@
       <div class="screen-tab-left">
         <span>1000人已审阅</span>
       </div>
-      <div class="screen-tab-right">
+      <div class="screen-tab-right" v-if="!puzzleState">
         <span class="screen-tab-right--puzzle" @click="handlePuzzleClick">拼图</span>
         <em></em>
         <span class="screen-tab-right--screen" @click="handleScreenClick">筛选</span>
@@ -38,11 +38,15 @@
         </ul>
       </div>
     </van-popup>
-    
+
     <!-- 筛选弹窗组件 -->
-    <van-popup v-model="showPopup" closeable :close-icon="setCloseIcon">
+    <van-popup
+      v-model="showPopup"
+      closeable
+      :close-on-click-overlay="closeClickOverlay"
+      :close-icon="setCloseIcon"
+    >
       <div class="popup-box">
-        <!-- popup-item-every -->
         <div class="popup-item-box" v-for="(item, index) in screenList" :key="index">
           <div class="popup-item-title">{{item.title}}</div>
           <div class="popup-item">
@@ -59,6 +63,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import { closeIconImg, puzzelLong, puzzleGrid } from "@/assets/images/img";
 export default {
   data() {
@@ -123,6 +128,9 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      puzzleState: state => state.livephoto.puzzleState
+    }),
     setCloseIcon() {
       return closeIconImg;
     },

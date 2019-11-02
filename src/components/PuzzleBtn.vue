@@ -1,12 +1,24 @@
 <template>
   <div class="puzzle-operate-box">
     <div class="puzzle-button puzzle-cancel" @click="handleCancelClick">取消</div>
-    <div class="puzzle-button puzzle-sure" @click="handleSureClick">开始拼图</div>
+    <div class="puzzle-button puzzle-sure" @click="handleSureClick">
+      开始拼图
+      <span class="puzzle-selected-count" v-if="selectedCount.length">{{selectedCount.length}}</span>
+    </div>
   </div>
 </template>
+
 <script>
 export default {
   name: "puzzle-btn",
+  props: {
+    selectedCount: {
+      type: Array,
+      default: () => {
+        return [];
+      }
+    }
+  },
   methods: {
     handleCancelClick() {
       this.$emit("puzzleCancel");
@@ -51,6 +63,7 @@ $rem: 75;
     border-radius: conver(22);
   }
   .puzzle-sure {
+    position: relative;
     width: conver(200);
     color: #fff;
     background: linear-gradient(
@@ -62,6 +75,21 @@ $rem: 75;
     );
     box-shadow: 0px 1px 9px 0px rgba(89, 153, 225, 0.56);
     border-radius: conver(22);
+    .puzzle-selected-count {
+      position: absolute;
+      top: conver(8);
+      margin-left: conver(10);
+      display: inline-block;
+      width: conver(21);
+      height: conver(21);
+      line-height: conver(21);
+      text-align: center;
+      background: #fff;
+      border-radius: 50%;
+      color: #2a76fd;
+      font-size: conver(12);
+      font-family: "微软雅黑";
+    }
   }
 }
 </style>
