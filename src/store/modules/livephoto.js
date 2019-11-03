@@ -4,7 +4,8 @@ import { getUrlParams, decrypt } from "@/lib/util";
 // initial state
 const state = {
   puzzleState: false,
-  pictureLayoutStyle: 'column-2', // 默认照片列表展示两列
+  pictureLayoutStyle: "column-2", // 默认照片列表展示两列
+  qrcodeState: false // 是否显示会场二维码
 };
 
 let pageNum = 0; // 分页页数
@@ -26,6 +27,9 @@ const mutations = {
   },
   changePictureLayout(state, pictureLayoutStyle) {
     state.pictureLayoutStyle = pictureLayoutStyle;
+  },
+  changeQrcodeState(state, qrcodeState) {
+    state.qrcodeState = qrcodeState;
   }
 };
 

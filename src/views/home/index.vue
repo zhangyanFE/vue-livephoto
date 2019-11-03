@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2019-10-23 18:24:13
- * @LastEditTime: 2019-11-02 11:51:49
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /vue-livephoto/src/views/home/index.vue
- -->
 <template>
   <div class="wrapper">
     <banner />
@@ -34,15 +26,33 @@
       @puzzleCancel="puzzleCancel"
       @puzzleSure="puzzleSure"
     />
+
+    <!-- 拼图结果弹窗 -->
+    <van-popup
+      v-model="showPuzzleResultPopup"
+      closeable
+      class="puzzle-result"
+      :overlay="overlayMask"
+      :close-on-click-overlay="closeClickOverlay"
+      :close-icon="setCloseIcon"
+    >
+      <div class="puzzle-result-box">拼图结果</div>
+    </van-popup>
+
+    <!-- 会场二维码弹窗 -->
+    <venue-qrcode :showQrcodePopup="showQrcodePopup" />
+
     <!-- 底部tabBar -->
-    <tab-bottom-bar v-if="!puzzleState" />
+    <tab-bottom-bar v-if="!puzzleState" @qrcodeState="changeQrcode" />
   </div>
 </template>
 <script>
 import { mapMutations, mapState } from "vuex";
+import { closeIconImg } from "@/assets/images/img";
 import data from "@/mock/index";
 import TabBottomBar from "@/components/TabBottomBar";
 import PuzzleBtn from "@/components/PuzzleBtn";
+import VenueQrcode from "@/components/VenueQrcode";
 import Banner from "./components/Banner";
 import TabNav from "./components/TabNav";
 import Screen from "./components/Screen";
@@ -56,10 +66,17 @@ export default {
       pictureList: [],
       previewImgList: [],
       selectedCountList: [],
+      showPuzzleResultPopup: false, // 拼图结果弹窗
+      closeClickOverlay: false, // 禁止点击蒙层
+      overlayMask: false, // 是否显示遮罩层
       listType: {
         loading: false,
         finished: false,
         error: false
+      },
+      showQrcodePopup: {
+        // 会场二维码弹窗
+        popupType: false
       }
     };
   },
@@ -70,7 +87,8 @@ export default {
     Banner,
     Screen,
     PictureList,
-    Widget
+    Widget,
+    VenueQrcode
   },
   watch: {
     pictureList(newData, oldData) {
@@ -80,7 +98,10 @@ export default {
   computed: {
     ...mapState({
       puzzleState: state => state.livephoto.puzzleState
-    })
+    }),
+    setCloseIcon() {
+      return closeIconImg;
+    }
   },
   mounted() {},
   activated() {
@@ -90,9 +111,17 @@ export default {
     console.log("离开首页");
   },
   methods: {
-    ...mapMutations("livephoto", ["changePuzzleState", "changePictureLayout"]),
+    ...mapMutations("livephoto", [
+      "changePuzzleState",
+      "changePictureLayout",
+      "changeQrcodeState"
+    ]),
     onLoad() {
       this.getList();
+    },
+    changeQrcode() {
+      // this.changeQrcodeState(true);
+      this.showQrcodePopup.popupType = true;
     },
     pictureSelected(selectedList) {
       this.selectedCountList = selectedList;
@@ -151,7 +180,10 @@ export default {
       if (this.selectedCountList.length >= 1) {
         this.toast("拼图中...");
         this.clearPuzzleResult();
-        // 合成照片...
+        this.pictureSelectedListGroup();
+        this.changePuzzleState(false);
+        // 合成照片成功弹出拼图结果弹窗...
+        this.showPuzzleResultPopup = true;
       } else {
         this.toast("请选择照片");
       }
@@ -165,7 +197,6 @@ export default {
       this.changePuzzleState(true);
     },
     pictureListLayout(result) {
-      // console.log(result);
       let { item, key, index } = result;
       switch (index) {
         case 0:
@@ -205,6 +236,12 @@ $rem: 75;
 .wrapper {
   .content-box {
     margin: 0 conver(15) conver(49) conver(15);
+  }
+  .puzzle-result {
+    &.van-popup {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

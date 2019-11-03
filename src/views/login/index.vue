@@ -65,6 +65,8 @@ $rem: 75;
         margin-right: conver(8);
       }
       input {
+        height: conver(40);
+        line-height: normal;
         font-size: conver(13);
         font-family: PingFang;
         font-weight: 500;
@@ -84,7 +86,7 @@ $rem: 75;
         vertical-align: middle;
       }
       .phone-val {
-          width: 87%;
+        width: 87%;
       }
     }
     &-code {
@@ -103,7 +105,7 @@ $rem: 75;
       .send-code {
         position: absolute;
         top: 0;
-        margin-left: conver(30);
+        right: conver(-100);
         width: conver(86);
         height: conver(40);
         background: #3a86fc;

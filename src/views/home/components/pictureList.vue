@@ -70,6 +70,7 @@
 <script>
 import { mapState } from "vuex";
 import { List, ImagePreview } from "vant";
+import { closeIconImg } from "@/assets/images/img";
 export default {
   props: {
     previewImgList: {
@@ -106,6 +107,9 @@ export default {
     }),
     pictureListLen() {
       return this.pictureList.length;
+    },
+    setCloseIcon() {
+      return closeIconImg;
     }
   },
   watch: {
@@ -159,7 +163,7 @@ export default {
           this.pictureList[index].selected = true;
           this.selectedList.push(item.size);
         }
-        this.$emit("pictureSelected", this.selectedList);
+        this.$emit("pictureSelected", this.selectedList, this.showPuzzleResultPopup);
       }
     },
     toast(message) {
@@ -339,6 +343,10 @@ $rem: 75;
         display: block;
       }
     }
+  }
+  /* 拼图结果弹窗 */
+  .puzzle-result-box{
+    
   }
   /* 无数据 */
   .no-data {

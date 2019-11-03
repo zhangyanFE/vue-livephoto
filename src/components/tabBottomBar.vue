@@ -6,7 +6,7 @@
         <em>首页</em>
       </router-link>
     </div>
-    <div class="tab-bar-item qrcode">
+    <div class="tab-bar-item qrcode" @click="handleQrcodeClick">
       <span>
         <i></i>
         <em>二维码</em>
@@ -20,6 +20,15 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    handleQrcodeClick() {
+      this.$emit("qrcodeState");
+    }
+  }
+};
+</script>>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {
@@ -29,7 +38,7 @@ $rem: 75;
   position: fixed;
   bottom: 0;
   left: 0;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
   height: conver(49);
   background: #fff;
@@ -52,10 +61,10 @@ $rem: 75;
     em {
       color: #666666;
     }
-    .router-link-exact-active{
-        em {
-            color: #000000;
-        }
+    .router-link-exact-active {
+      em {
+        color: #000000;
+      }
     }
     &.home {
       i {

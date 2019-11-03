@@ -2,11 +2,11 @@
   <div class="wrapper">
     <div class="user-bg"></div>
     <div class="user-box">
-      <div class="user-info">
+      <router-link tag="div" to="/login" class="user-info">
         <!-- <img src alt="icon" /> -->
         <i></i>
         <span>轻语素纱月初凉</span>
-      </div>
+      </router-link>
       <div class="my-list">
         <div class="list-item" v-for="(item, index) in list" :key="index">
           <router-link tag="div" :to="item.path">

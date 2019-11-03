@@ -93,7 +93,7 @@ $rem: 75;
         width: conver(200);
         .item-info {
           font-weight: 500;
-          font-family: SourceHanSansCN;
+          font-family: "微软雅黑";
           i,
           span {
             display: inline-block;

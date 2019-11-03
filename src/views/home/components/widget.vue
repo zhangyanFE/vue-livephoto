@@ -4,10 +4,10 @@
       <i></i>
       <span>找人</span>
     </div>
-    <div class="widget widget-order">
+    <router-link class="widget widget-order" tag="div" to="/my/appointment">
       <i></i>
       <span>预约</span>
-    </div>
+    </router-link>
   </div>
 </template>
 <style lang="scss" scoped>
