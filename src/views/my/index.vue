@@ -12,7 +12,7 @@
           <router-link tag="div" :to="item.path">
             <i :class="`icon-${item.index}`"></i>
             <span>{{item.title}}</span>
-            <i class="arrow-icon"></i>
+            <i class="iconfont arrow-icon">&#xe612;</i>
           </router-link>
         </div>
       </div>
@@ -34,32 +34,32 @@ export default {
         {
           title: "相册收藏",
           index: 1,
-          path: '/my/collection'
+          path: "/my/collection"
         },
         {
           title: "人脸识别",
           index: 2,
-          path: '/my/face'
+          path: "/my/face"
         },
         {
           title: "我收藏的照片",
           index: 3,
-          path: '/my/album'
+          path: "/my/album"
         },
         {
           title: "数据分析",
           index: 4,
-          path: '/my/data'
+          path: "/my/data"
         },
         {
           title: "预约云摄影服务",
           index: 5,
-          path: '/my/appointment'
+          path: "/my/appointment"
         },
         {
           title: "关于我们",
           index: 6,
-          path: '/my/about'
+          path: "/my/about"
         }
       ]
     };
@@ -177,11 +177,13 @@ $rem: 75;
         .arrow-icon {
           width: conver(9);
           height: conver(16);
-          background: url("./images/arrow-icon.png") no-repeat;
-          background-size: conver(9) auto;
+          /* background: url("./images/arrow-icon.png") no-repeat;
+          background-size: conver(9) auto; */
           position: absolute;
-          right: conver(10);
-          top: conver(15);
+          right: conver(18);
+          top: conver(25);
+          font-size: conver(30);
+          transform: rotate(-90deg);
         }
         span {
           color: #000;

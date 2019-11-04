@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <banner />
-    <tab-nav @changeNav="handleChangeNav" :navList="navList" />
+    <tab-nav @changeTabNav="handleChangeTabNav" :navList="navList" />
     <div class="content-box">
       <screen
         @popupOpen="popupOpen"
@@ -103,7 +103,14 @@ export default {
       return closeIconImg;
     }
   },
-  mounted() {},
+  mounted() {
+    // const pc = new Clip(document.getElementById("app"), "./images/seek-icon.png");
+    // pc.on("loaded", () => {
+    //   // 截图生成base64
+    //   const dataURL = pc.clip();
+    //   console.log(dataURL)
+    // });
+  },
   activated() {
     console.log("首页");
   },
@@ -162,7 +169,7 @@ export default {
         this.listType.error = true;
       }
     },
-    handleChangeNav() {
+    handleChangeTabNav() {
       this.pictureList = [];
       this.listType.loading = true;
       this.listType.finished = false;

@@ -18,7 +18,11 @@
             @click="handleClick(item, index)"
           >
             <div class="picture-img" v-lazy="item.src" :style="`backgroundImage:url(${item.src})`">
-              <div class="picture-select" v-if="puzzleState">
+              <div
+                class="picture-select"
+                :class="[item.selected && 'selected',selectedList.length>9 && !item.selected && 'unselected']"
+                v-if="puzzleState"
+              >
                 <div :class="['picture-select-tag', item.selected && 'selected']">
                   <!-- <span>{{selectedNum}}</span> -->
                 </div>
@@ -42,8 +46,15 @@
         <template v-slot:cover>
           <div class="cover-info">
             <div class="cover-info-left">
-              <span class="collection" :type="pictureList[index].w">
-                <i class="iconfont">&#xe61d;</i>
+              <span
+                class="collection"
+                :type="pictureList[index].w"
+                @click.stop="handleStarClick(curIndex, index)"
+              >
+                <!-- &#xe742;; 选中 -->
+                <!-- &#xe61d; 未选中 -->
+                <i class="iconfont unstar" v-if="!pictureList[index].selected">&#xe61d;</i>
+                <i class="iconfont star" v-else>&#xe743;</i>
                 <em>收藏</em>
               </span>
               <span class="share">
@@ -55,7 +66,7 @@
               <p>可长按保存图片</p>
             </div>
             <div class="cover-info-right">
-              <i @click.stop="handleCloseClick"></i>
+              <i class="iconfont" @click.stop="handleCloseClick">&#xe73f;</i>
             </div>
           </div>
         </template>
@@ -124,6 +135,7 @@ export default {
       lazyLoad: true,
       showIndex: false,
       asyncClose: false,
+      stared: false, // 收藏是否选中
       selected: false, // 当前选中的项
       selectedNum: 1, // 选中图片个数
       index: 0,
@@ -144,6 +156,13 @@ export default {
     handleCloseClick() {
       this.show = false;
     },
+    handleStarClick(curIndex, index) {
+      if (this.pictureList[index].selected) {
+        this.pictureList[index].selected = false;
+      } else {
+        this.pictureList[index].selected = true;
+      }
+    },
     handleClick(item, index) {
       if (!this.puzzleState) {
         this.show = true;
@@ -163,7 +182,11 @@ export default {
           this.pictureList[index].selected = true;
           this.selectedList.push(item.size);
         }
-        this.$emit("pictureSelected", this.selectedList, this.showPuzzleResultPopup);
+        this.$emit(
+          "pictureSelected",
+          this.selectedList,
+          this.showPuzzleResultPopup
+        );
       }
     },
     toast(message) {
@@ -248,6 +271,12 @@ $rem: 75;
           font-weight: bold;
           text-align: center;
           line-height: conver(20);
+          &.selected{
+            background: rgba(0, 0, 0, 0.3);
+          }
+          &.unselected {
+            background: rgba(255, 255, 255, 0.7);
+          }
           &-tag {
             position: absolute;
             top: conver(8);
@@ -302,6 +331,14 @@ $rem: 75;
           display: block;
           font-size: conver(28);
           text-align: center;
+          &.star {
+            color: #ffd800;
+            font-size: conver(26.5);
+          }
+        }
+        em {
+          display: block;
+          text-align: center;
         }
       }
     }
@@ -315,9 +352,13 @@ $rem: 75;
         display: inline-block;
         width: conver(28);
         height: conver(28);
-        background: url("../images/close-icon.png") no-repeat;
+        line-height: conver(28);
+        text-align: center;
+        background: #333;
+        border-radius: 50%;
+        /* background: url("../images/close-icon.png") no-repeat;
         background-size: conver(28);
-        vertical-align: middle;
+        vertical-align: middle; */
       }
     }
   }
@@ -345,8 +386,7 @@ $rem: 75;
     }
   }
   /* 拼图结果弹窗 */
-  .puzzle-result-box{
-    
+  .puzzle-result-box {
   }
   /* 无数据 */
   .no-data {

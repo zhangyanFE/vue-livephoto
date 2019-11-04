@@ -7,6 +7,7 @@ import VueLazyload from "vue-lazyload";
 import VueAwesomeSwiper from "vue-awesome-swiper";
 import VueMoment from "vue-moment";
 import Hammerjs from "hammerjs";
+// import ImageClip from "clip-js";
 
 // 公共样式
 import "styles/common.less";
