@@ -1,6 +1,6 @@
 <template>
   <div class="picture-box">
-    <template>
+    <template v-show="pictureList.length">
       <list
         v-model="listType.loading"
         :finished="listType.finished"
@@ -51,8 +51,6 @@
                 :type="pictureList[index].w"
                 @click.stop="handleStarClick(curIndex, index)"
               >
-                <!-- &#xe742;; 选中 -->
-                <!-- &#xe61d; 未选中 -->
                 <i class="iconfont unstar" v-if="!pictureList[index].selected">&#xe61d;</i>
                 <i class="iconfont star" v-else>&#xe743;</i>
                 <em>收藏</em>
@@ -72,10 +70,10 @@
         </template>
       </van-image-preview>
     </template>
-    <!-- <div class="no-data">
+    <div class="no-data" v-show="!pictureList.length">
       <i></i>
       <p>暂无信息</p>
-    </div>-->
+    </div>
   </div>
 </template>
 <script>
@@ -271,7 +269,7 @@ $rem: 75;
           font-weight: bold;
           text-align: center;
           line-height: conver(20);
-          &.selected{
+          &.selected {
             background: rgba(0, 0, 0, 0.3);
           }
           &.unselected {

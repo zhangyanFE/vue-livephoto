@@ -141,36 +141,29 @@ export default {
     getList() {
       // 异步更新数据
       try {
-        this.pictureList = data;
+        // setTimeout(() => {
+        for (let i = 0; i < 5; i++) {
+          this.pictureList = this.pictureList.concat(data);
+        }
         for (let index = 0; index < this.pictureList.length; index++) {
           this.previewImgList.push(this.pictureList[index].src);
         }
-        setTimeout(() => {
-          for (let i = 0; i < 10; i++) {
-            // if (i % 4 == 0) {
-            //   this.pictureList.push(
-            //     "https://s.plusx.cn/plus/immediate/52470349/20190803151500688/AM_06909.JPG?imageView2/0/w/1600/h/3000/q/85&sign=b98b48e2e9d73e2b8fae91c9875fae6f&t=5db96a0c"
-            //   );
-            // } else {
-            //   this.pictureList.push(
-            //     "https://s.plusx.cn/plus/immediate/52470349/20190803140709603/AM_06901.JPG?imageView2/0/w/1600/h/3000/q/85&sign=99a3b26667efb1682097ac8fd9bd96ab&t=5db96a0c"
-            //   );
-            // }
-          }
-          // 加载状态结束
-          // this.listType.loading = false;
+        // 加载状态结束
+        this.listType.loading = false;
+        console.log(this.pictureList);
+        // }, 500);
 
-          // 数据全部加载完成
-          // if (this.pictureList.length >= 200) {
-          //   this.listType.finished = true;
-          // }
-        }, 500);
+        // 数据全部加载完成
+        if (this.pictureList.length >= 200) {
+          this.listType.finished = true;
+        }
       } catch (error) {
         this.listType.error = true;
       }
     },
     handleChangeTabNav() {
       this.pictureList = [];
+      this.previewImgList = [];
       this.listType.loading = true;
       this.listType.finished = false;
       this.getList();

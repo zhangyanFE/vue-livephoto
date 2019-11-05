@@ -2,7 +2,7 @@
   <div id="app">
     <transition name="fade">
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" />
+        <router-view class="view" v-if="$route.meta.keepAlive" />
       </keep-alive>
     </transition>
     <router-view v-if="!$route.meta.keepAlive" />
@@ -34,14 +34,14 @@ export default {
   height: 100%;
 }
 .view {
-  transition: all 0.4s ease-in-out;
+  transition: all 0.3s ease-in-out;
   &.fade-enter-active,
   &.fade-leave-active {
     opacity: 0.01;
   }
   &.fade-enter,
   &.fade-leave {
-    transition: opacity 0.4s;
+    transition: opacity 0.3s;
   }
 }
 </style>
