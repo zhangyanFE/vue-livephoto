@@ -76,7 +76,7 @@ $rem: 75;
           display: flex;
           justify-content: center;
           font-size: conver(20);
-          font-family: SourceHanSansCN;
+          font-family: "微软雅黑";
           font-weight: 500;
           color: rgba(57, 133, 253, 1);
           line-height: conver(15);

@@ -1,12 +1,19 @@
 <template>
   <div class="banner-box" id="J_banner">
-    banner
-    <!-- <img
-      src="http://oss.suning.com/aps/aps_learning/iwogh/2019/10/25/16/iwoghBannerPicture/c7e375d0c4884550b5cb2c7089a45c68.png?format=_is_1242w_610h"
-      alt
-    /> -->
+    <img :src="setBanner" alt="banner" />
   </div>
 </template>
+<script>
+import { banner } from "@/assets/images/img";
+
+export default {
+  computed: {
+    setBanner() {
+      return banner;
+    }
+  }
+};
+</script>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {

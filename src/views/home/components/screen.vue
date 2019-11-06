@@ -159,7 +159,9 @@ export default {
       this.$emit("checkPuzzle");
     },
     handleCheckGridPuzzle() {
-      this.toast("九宫格拼图敬请期待~");
+      // this.toast("九宫格拼图敬请期待~");
+      this.showPuzzlePopup = false;
+      this.$emit("checkPuzzle");
     },
     handlePuzzleClick() {
       this.showPuzzlePopup = true;
@@ -233,42 +235,42 @@ $rem: 75;
     width: conver(280);
     height: conver(250);
     .puzzle-type-title {
-      font-size: conver(14);
+      font-size: conver(16);
       font-family: SourceHanSansCN;
       font-weight: 400;
       color: #000;
       text-align: center;
-      padding: conver(20) 0;
+      padding-top: conver(30);
     }
     ul {
       display: flex;
       flex-direction: row;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      margin-top: conver(25);
       li {
         width: conver(120);
         height: conver(120);
-        position: relative;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
-        .col-all-center {
-          &.long {
-            height: conver(200);
+        div {
+          height: conver(100);
+          &.col-all-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
           }
-          &.ninegrid {
-            /* height: conver(240); */
-          }
-        }
-        span {
-          color: #000;
-          font-weight: 600;
-          font-size: 0.28rem;
-          margin: 0.2rem 0 0;
         }
         img {
-          width: 1.9rem;
+          width: conver(50);
+          display: block;
+        }
+        span {
+          font-size: conver(16);
+          color: #000;
+          font-weight: 600;
         }
       }
     }

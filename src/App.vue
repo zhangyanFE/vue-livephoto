@@ -29,9 +29,18 @@ export default {
 </script>
 
 <style lang="scss">
+@function conver($n) {
+  @return $n * 2 / 75 + unquote("rem");
+}
+
 #app {
   width: 100%;
   height: 100%;
+  .van-image {
+    font-size: conver(25);
+    top: conver(-5);
+    right: conver(-4);
+  }
 }
 .view {
   transition: all 0.3s ease-in-out;
