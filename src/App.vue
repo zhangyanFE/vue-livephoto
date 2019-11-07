@@ -38,8 +38,8 @@ export default {
   height: 100%;
   .van-image {
     font-size: conver(25);
-    top: conver(-5);
-    right: conver(-4);
+    /* top: conver(-5);
+    right: conver(-4); */
   }
 }
 .view {
