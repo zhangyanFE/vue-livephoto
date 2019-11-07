@@ -32,8 +32,44 @@
         </div>
       </list>
 
+      <div class="swiper-masking" v-show="show" @click.stop="handleCloseClick">
+        <div class="img-show-tip">
+          <div class="cover-info">
+            <div class="cover-info-left">
+              <span
+                class="collection"
+                @click.stop="handleStarClick(curIndex)"
+              >
+                <i class="iconfont unstar" v-if="!pictureList">&#xe61d;</i>
+                <i class="iconfont star" v-else>&#xe743;</i>
+                <em>收藏</em>
+              </span>
+              <span class="share">
+                <i class="iconfont">&#xe739;</i>
+                <em>分享</em>
+              </span>
+            </div>
+            <div class="cover-info-center">
+              <p>可长按保存图片</p>
+            </div>
+            <div class="cover-info-right">
+              <i class="iconfont" @click.stop="handleCloseClick">&#xe73f;</i>
+            </div>
+          </div>
+        </div>
+        <swiper :options="swiperOption" ref="mySwiper" class="imgShowSwiper">
+          <swiper-slide v-for="(item, index) in pictureList" :key="index" class="swiper-lazy">
+            <div class="pinch-zoom-container">
+              <div class="row-all-center">
+                <img :src="item.src" alt />
+              </div>
+            </div>
+          </swiper-slide>
+        </swiper>
+      </div>
+
       <!-- 大图预览 -->
-      <van-image-preview
+      <!-- <van-image-preview
         v-model="show"
         :start-position="curIndex"
         :show-index="showIndex"
@@ -68,7 +104,7 @@
             </div>
           </div>
         </template>
-      </van-image-preview>
+      </van-image-preview>-->
     </template>
     <div class="no-data" v-show="!pictureList.length">
       <i></i>
@@ -138,8 +174,29 @@ export default {
       selectedNum: 1, // 选中图片个数
       index: 0,
       curIndex: 0,
-      selectedList: []
+      selectedList: [],
+      swiperOption: {
+        speed: 800,
+        loop: false,
+        threshold: 8,
+        observer: true,
+        centeredSlides: true,
+        lazy: true,
+        initialSlide: 0,
+        // slidesPerView: 1,
+        lazyLoading: true,
+        onTap(swiper) {
+          console.log(swiper);
+        },
+        onSlideChangeStart: function(swiper) {
+          var index = swiper.activeIndex;
+          console.log(index);
+        }
+      }
     };
+  },
+  mounted() {
+    console.log(this.swiperOption);
   },
   methods: {
     onLoad() {
@@ -165,6 +222,7 @@ export default {
       if (!this.puzzleState) {
         this.show = true;
         this.curIndex = this.index = index;
+        this.swiperOption.initialSlide = this.curIndex;
       } else {
         if (
           this.pictureList[index].selected &&
@@ -201,6 +259,33 @@ export default {
 $rem: 75;
 @function conver($n) {
   @return $n * 2 / $rem + unquote("rem");
+}
+.swiper-masking {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 999;
+  .imgShowSwiper {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    .pinch-zoom-container {
+      height: 100%;
+      .row-all-center {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      img {
+        width: 100%;
+        -webkit-user-drag: none;
+      }
+    }
+  }
 }
 .picture-box {
   position: relative;
