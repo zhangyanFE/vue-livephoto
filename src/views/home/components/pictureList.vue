@@ -208,7 +208,6 @@ $rem: 75;
     overflow: hidden;
     &-item {
       float: left;
-
       box-sizing: border-box;
       margin-bottom: conver(9);
       &.column-2 {
