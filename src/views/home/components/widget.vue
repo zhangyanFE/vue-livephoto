@@ -2,14 +2,26 @@
   <div class="widget-box">
     <div class="widget widget-seek">
       <i></i>
-      <span>找人</span>
+      <span v-if="language=='zh-CN'">找人</span>
+      <span v-else>Seek</span>
     </div>
     <router-link class="widget widget-order" tag="div" to="/my/appointment">
       <i></i>
-      <span>预约</span>
+      <span v-if="language=='zh-CN'">预约</span>
+      <span v-else>Order</span>
     </router-link>
   </div>
 </template>
+<script>
+import { mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState({
+      language: state => state.livephoto.i18n.locales
+    })
+  }
+};
+</script>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {

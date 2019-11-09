@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     ...mapState({
-      puzzleState: state => state.livephoto.puzzleState
+      puzzleState: state => state.livephoto.puzzleState,
     }),
     setCloseIcon() {
       return closeIconImg;

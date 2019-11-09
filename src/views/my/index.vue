@@ -11,7 +11,8 @@
         <div class="list-item" v-for="(item, index) in list" :key="index">
           <router-link tag="div" :to="item.path">
             <i :class="`icon-${item.index}`"></i>
-            <span>{{item.title}}</span>
+            <span v-if="language=='zh-CN'">{{item.chineseTitle}}</span>
+            <span v-else>{{item.englishTitle}}</span>
             <i class="iconfont arrow-icon">&#xe612;</i>
           </router-link>
         </div>
@@ -22,11 +23,17 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import TabBottomBar from "@/components/TabBottomBar";
 
 export default {
   components: {
     TabBottomBar
+  },
+  computed: {
+    ...mapState({
+      language: state => state.livephoto.i18n.locales
+    })
   },
   data() {
     return {
@@ -34,32 +41,44 @@ export default {
         {
           title: "相册收藏",
           index: 1,
-          path: "/my/collection"
+          path: "/my/collection",
+          chineseTitle: "相册收藏",
+          englishTitle: "Photo Collection"
         },
         {
           title: "人脸识别",
           index: 2,
-          path: "/my/face"
+          path: "/my/face",
+          chineseTitle: "人脸识别",
+          englishTitle: "Face recognition"
         },
         {
           title: "我收藏的照片",
           index: 3,
-          path: "/my/album"
+          path: "/my/album",
+          chineseTitle: "我收藏的照片",
+          englishTitle: "My collection of photoraphs"
         },
         {
           title: "数据分析",
           index: 4,
-          path: "/my/data"
+          path: "/my/data",
+          chineseTitle: "数据分析",
+          englishTitle: "Data analysis"
         },
         {
           title: "预约云摄影服务",
           index: 5,
-          path: "/my/appointment"
+          path: "/my/appointment",
+          chineseTitle: "预约云摄影服务",
+          englishTitle: "Appoint Cloud Photographaphy Service"
         },
         {
           title: "关于我们",
           index: 6,
-          path: "/my/about"
+          path: "/my/about",
+          chineseTitle: "关于我们",
+          englishTitle: "About us"
         }
       ]
     };

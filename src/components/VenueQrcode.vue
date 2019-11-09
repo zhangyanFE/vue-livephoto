@@ -60,6 +60,10 @@ $rem: 75;
 .venue-qrcode-box {
   width: conver(280);
   height: conver(355);
+  /* .van-image {
+    top: conver(-5);
+    right: conver(-4);
+  } */
   .venue-qrcode-title {
     height: conver(45);
     line-height: conver(45);

@@ -3,6 +3,10 @@ import { getUrlParams, decrypt } from "@/lib/util";
 
 // initial state
 const state = {
+  i18n: {
+    // 国际化
+    locales: "zh-CN", // ["zh-CN", "en-US"]
+  },
   puzzleState: false,
   pictureLayoutStyle: "column-2", // 默认照片列表展示两列
   qrcodeState: false // 是否显示会场二维码
@@ -30,6 +34,10 @@ const mutations = {
   },
   changeQrcodeState(state, qrcodeState) {
     state.qrcodeState = qrcodeState;
+  },
+  changeLanguageState(state, locales) {
+    console.log(locales)
+    state.i18n.locales = locales;
   }
 };
 

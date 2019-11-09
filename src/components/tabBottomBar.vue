@@ -1,30 +1,54 @@
 <template>
   <div class="tab-bar-box">
-    <div class="tab-bar-item home">
-      <router-link tag="span" to="/">
+    <div
+      v-for="(item, index) in tabBarList"
+      :class="['tab-bar-item', item.className]"
+      :key="index"
+      @click="handleQrcodeClick(index)"
+    >
+      <router-link tag="span" :to="item.path">
         <i></i>
-        <em>首页</em>
-      </router-link>
-    </div>
-    <div class="tab-bar-item qrcode" @click="handleQrcodeClick">
-      <span>
-        <i></i>
-        <em>二维码</em>
-      </span>
-    </div>
-    <div class="tab-bar-item my">
-      <router-link tag="span" to="/my">
-        <i></i>
-        <em>我的</em>
+        <em v-if="language=='zh-CN'">{{item.chinese}}</em>
+        <em v-else>{{item.english}}</em>
       </router-link>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
+  data() {
+    return {
+      tabBarList: [
+        {
+          className: "home",
+          path: "/",
+          chinese: "首页",
+          english: "HOME"
+        },
+        {
+          className: "qrcode",
+          path: "",
+          chinese: "二维码",
+          english: "QRcode"
+        },
+        {
+          className: "my",
+          path: "/my",
+          chinese: "我的",
+          english: "MY"
+        }
+      ]
+    };
+  },
+  computed: {
+    ...mapState({
+      language: state => state.livephoto.i18n.locales
+    })
+  },
   methods: {
-    handleQrcodeClick() {
-      this.$emit("qrcodeState");
+    handleQrcodeClick(index) {
+      index == 1 && this.$emit("qrcodeState");
     }
   }
 };
@@ -47,6 +71,8 @@ $rem: 75;
   flex-direction: row;
   justify-content: space-around;
   .tab-bar-item {
+    width: 33.3%;
+    text-align: center;
     padding-top: conver(5);
     font-size: conver(11);
     font-family: SourceHanSansCN;
