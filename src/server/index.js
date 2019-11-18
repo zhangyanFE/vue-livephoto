@@ -6,12 +6,21 @@ var schema = buildSchema(`
   type Query {
     hello: String,
     name: String,
+    age: String,
+    id: ID
+  }
+
+  type User {
+    id: ID
+    name: String
   }
 `);
 
 var root = {
   hello: () => "Hello world!",
-  name: "zhangyan"
+  name: "zhangyan",
+  age: 30,
+  id: 100
 };
 
 var app = express();

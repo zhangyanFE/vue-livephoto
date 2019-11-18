@@ -6,10 +6,15 @@
       :key="index"
       @click="handleQrcodeClick(index)"
     >
-      <router-link tag="span" :to="item.path">
+      <span v-if="item.className == 'qrcode'">
         <i></i>
-        <em v-if="language=='zh-CN'">{{item.chinese}}</em>
-        <em v-else>{{item.english}}</em>
+        <em v-if="language == 'zh-CN'">{{ item.chinese }}</em>
+        <em v-else>{{ item.english }}</em>
+      </span>
+      <router-link tag="span" :to="item.path" v-else>
+        <i></i>
+        <em v-if="language == 'zh-CN'">{{ item.chinese }}</em>
+        <em v-else>{{ item.english }}</em>
       </router-link>
     </div>
   </div>
@@ -34,7 +39,7 @@ export default {
         },
         {
           className: "my",
-          path: "/my",
+          path: "/my/info",
           chinese: "我的",
           english: "MY"
         }
@@ -52,11 +57,28 @@ export default {
     }
   }
 };
-</script>>
+</script>
+>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {
   @return $n * 2 / $rem + unquote("rem");
+}
+
+/* iphonex iphoneXS */
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .tab-bar-box {
+    /* background-color: #fff; */
+    padding-bottom: 34px;
+  }
+}
+
+/* iphoneXSMax iphoneXR */
+@media only screen and (device-width: 414px) and (device-height: 896px) {
+  .tab-bar-box {
+    /* background-color: #fff; */
+    padding-bottom: 34px;
+  }
 }
 .tab-bar-box {
   position: fixed;

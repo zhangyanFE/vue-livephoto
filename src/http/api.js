@@ -5,7 +5,9 @@ import { getUdid, getUid, getUrlParams, platForm, getCookie } from "@/lib/util";
 const protocol = `${window.location.protocol}`;
 
 const API = {
-  
+  getList() {
+    //   return request();
+  }
 };
 
 export default API;

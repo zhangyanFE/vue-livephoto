@@ -2,7 +2,7 @@
   <div id="app">
     <transition name="fade">
       <keep-alive>
-        <router-view class="view" v-if="$route.meta.keepAlive" />
+        <router-view v-if="$route.meta.keepAlive" />
       </keep-alive>
     </transition>
     <router-view v-if="!$route.meta.keepAlive" />
