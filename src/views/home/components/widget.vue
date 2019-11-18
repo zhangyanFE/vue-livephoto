@@ -2,12 +2,12 @@
   <div class="widget-box">
     <div class="widget widget-seek">
       <i></i>
-      <span v-if="language=='zh-CN'">找人</span>
+      <span v-if="language == 'zh-CN'">找人</span>
       <span v-else>Seek</span>
     </div>
     <router-link class="widget widget-order" tag="div" to="/my/appointment">
       <i></i>
-      <span v-if="language=='zh-CN'">预约</span>
+      <span v-if="language == 'zh-CN'">预约</span>
       <span v-else>Order</span>
     </router-link>
   </div>
@@ -27,6 +27,20 @@ $rem: 75;
 @function conver($n) {
   @return $n * 2 / $rem + unquote("rem");
 }
+/* iphonex iphoneXS */
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .widget-box {
+    bottom: conver(80)!important;
+  }
+}
+
+/* iphoneXSMax iphoneXR */
+@media only screen and (device-width: 414px) and (device-height: 896px) {
+  .widget-box {
+    bottom: conver(80)!important;
+  }
+}
+
 .widget-box {
   position: fixed;
   bottom: conver(40);

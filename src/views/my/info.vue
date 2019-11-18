@@ -11,32 +11,35 @@
         <div class="list-item" v-for="(item, index) in list" :key="index">
           <router-link tag="div" :to="item.path">
             <i :class="`icon-${item.index}`"></i>
-            <span v-if="language=='zh-CN'">{{item.chineseTitle}}</span>
-            <span v-else>{{item.englishTitle}}</span>
+            <span v-if="language == 'zh-CN'">{{ item.chineseTitle }}</span>
+            <span v-else>{{ item.englishTitle }}</span>
             <i class="iconfont arrow-icon">&#xe612;</i>
           </router-link>
         </div>
       </div>
     </div>
-    <tab-bottom-bar />
-    <router-view></router-view>
+    <!-- 会场二维码弹窗 -->
+    <venue-qrcode :showQrcodePopup="showQrcodePopup" />
+    <!-- 底部tabBar -->
+    <tab-bottom-bar @qrcodeState="changeQrcode" />
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import TabBottomBar from "@/components/TabBottomBar";
+import VenueQrcode from "@/components/VenueQrcode";
 
 export default {
   components: {
-    TabBottomBar
-  },
-  computed: {
-    ...mapState({
-      language: state => state.livephoto.i18n.locales
-    })
+    TabBottomBar,
+    VenueQrcode
   },
   data() {
     return {
+      showQrcodePopup: {
+        // 会场二维码弹窗
+        popupType: false
+      },
       list: [
         {
           title: "相册收藏",
@@ -83,12 +86,25 @@ export default {
       ]
     };
   },
-  mounted() {},
+  computed: {
+    ...mapState({
+      language: state => state.livephoto.i18n.locales
+    })
+  },
+  mounted() {
+    
+  },
   activated() {
     console.log("我的");
+    // console.log(this.$store.state.livephoto.i18n.locales)
   },
   deactivated() {
     console.log("离开我的");
+  },
+  methods: {
+    changeQrcode() {
+      this.showQrcodePopup.popupType = true;
+    }
   }
 };
 </script>
