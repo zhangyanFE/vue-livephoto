@@ -601,3 +601,13 @@ export function addQueryString(params) {
   }
   return paramsData;
 }
+
+// 检测手机号
+export function checkPhone(phone) {
+  // var phone = document.getElementById('phone').value;
+  if (!/^1[3456789]\d{9}$/.test(phone)) {
+    return false;
+  } else {
+    return true;
+  }
+}

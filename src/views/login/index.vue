@@ -4,34 +4,105 @@
     <div class="login-user">
       <div class="user-info login-user-phone">
         <i></i>
-        <input type="tel" class="phone-val" maxlength="11" placeholder="输入手机号" />
+        <input
+          v-model="mobile"
+          type="tel"
+          class="phone-val"
+          maxlength="11"
+          placeholder="输入手机号"
+          @keyup.enter="verificationPhone"
+          @blur="verificationPhone"
+        />
       </div>
       <div class="user-info login-user-code">
         <i></i>
-        <input type="tel" class="code-val" maxlength="6" placeholder="输入验证码" />
-        <span class="send-code">发送验证码</span>
+        <input
+          v-model="code"
+          type="tel"
+          class="code-val"
+          maxlength="6"
+          placeholder="输入验证码"
+          @keyup.enter="verificationCode"
+          @blur="verificationCode"
+        />
+        <span class="send-code" @click="handleSendCode">发送验证码</span>
       </div>
-      <div class="login-btn">
+      <div class="login-btn" @click="handleLogin">
         <span>登录</span>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { checkPhone } from "@/lib/util";
 export default {
   name: "login",
-  components: {},
   data() {
-    return {};
+    return {
+      mobile: "",
+      code: "",
+      timer: null,
+      count: 10
+    };
   },
   computed: {},
   watch: {},
   created() {},
   activated() {},
   deactivated() {},
-  methods: {}
+  methods: {
+    phoneVal(e) {
+      let { value } = e.currentTarget;
+    },
+    codeVal() {},
+    checkMobile(type, flag) {
+      if (this.mobile.length !== 11) {
+        this.$toast("请输入11位手机号");
+        return false;
+      } else if (!checkPhone(this.mobile)) {
+        this.$toast("请输入正确的手机号");
+        return false;
+      } else {
+        return true;
+      }
+    },
+    checkCode() {
+      if (this.code.length !== 6) {
+        this.$toast("请输入6位验证码");
+        return false;
+      } else {
+        // ajax...
+        return true;
+      }
+    },
+    verificationPhone() {
+      this.checkMobile();
+    },
+    verificationCode() {
+      this.checkCode();
+    },
+    handleSendCode() {
+      if (this.checkMobile()) {
+        // ajax...
+        this.$toast("验证码发送成功");
+      }
+    },
+    handleLogin() {
+      if (this.checkMobile() && this.checkCode()) {
+        // ajax...
+        this.$toast("登录成功");
+        let redirectUrl = this.$route.query.redirect;
+        if (redirectUrl) {
+          this.$router.push(redirectUrl);
+        } else {
+          this.$router.push("/my");
+        }
+      }
+    }
+  }
 };
-</script>>
+</script>
+>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {

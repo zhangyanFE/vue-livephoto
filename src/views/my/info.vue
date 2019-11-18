@@ -26,8 +26,8 @@
 </template>
 <script>
 import { mapState, mapGetters } from "vuex";
-import TabBottomBar from "@/components/TabBottomBar";
-import VenueQrcode from "@/components/VenueQrcode";
+import TabBottomBar from "@/components/tabBottomBar";
+import VenueQrcode from "@/components/venueQrcode";
 
 export default {
   components: {

@@ -94,7 +94,7 @@ $rem: 75;
     overflow: hidden;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    margin-right: conver(40);
+    /* margin-right: conver(40); */
     .tab-nav-item {
       padding: 0 4%;
       text-align: center;
@@ -127,6 +127,7 @@ $rem: 75;
     }
   }
   .tab-more {
+    display: none;
     position: absolute;
     top: 0;
     right: 0;

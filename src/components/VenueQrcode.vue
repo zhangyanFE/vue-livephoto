@@ -1,19 +1,21 @@
 <template>
-  <van-popup
-    v-model="showQrcodePopup.popupType"
-    closeable
-    :overlay="overlayMask"
-    :close-on-click-overlay="closeClickOverlay"
-    :close-icon="setWhiteCloseIcon"
-  >
-    <div class="venue-qrcode-box">
-      <div class="venue-qrcode-title">二维码</div>
-      <div class="venue-qrcode-img">
-        <img :src="setQrcodeImg" alt="二维码" />
-        <p>对本相册的扫描分享</p>
+  <div class="popup-box">
+    <van-popup
+      v-model="showQrcodePopup.popupType"
+      closeable
+      :overlay="overlayMask"
+      :close-on-click-overlay="closeClickOverlay"
+      :close-icon="setWhiteCloseIcon"
+    >
+      <div class="venue-qrcode-box">
+        <div class="venue-qrcode-title">二维码</div>
+        <div class="venue-qrcode-img">
+          <img :src="setQrcodeImg" alt="二维码" />
+          <p>对本相册的扫描分享</p>
+        </div>
       </div>
-    </div>
-  </van-popup>
+    </van-popup>
+  </div>
 </template>
 
 <script>
@@ -27,7 +29,7 @@ export default {
       default: () => {
         return {
           popupType: false
-        }
+        };
       }
     }
   },
@@ -51,19 +53,23 @@ export default {
   },
   methods: {}
 };
-</script>>
+</script>
+>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {
   @return $n * 2 / $rem + unquote("rem");
 }
+.popup-box {
+  .van-image {
+    top: conver(-5);
+    right: conver(-4);
+  }
+}
 .venue-qrcode-box {
   width: conver(280);
   height: conver(355);
-  /* .van-image {
-    top: conver(-5);
-    right: conver(-4);
-  } */
+
   .venue-qrcode-title {
     height: conver(45);
     line-height: conver(45);
