@@ -22,12 +22,14 @@
     "vant": "^2.2.12",
     "vue": "^2.6.10",
     "vue-awesome-swiper": "^2.6.7",
+    "vue-i18n": "^8.15.0",
     "vue-lazyload": "^1.2.6",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@kazupon/vue-i18n-loader": "^0.4.1",
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-eslint": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
@@ -36,6 +38,7 @@
     "babel-plugin-import": "^1.12.2",
     "cli-color": "^1.4.0",
     "css-loader": "^3.2.0",
+    "deepmerge": "^4.2.2",
     "del": "^5.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
@@ -52,7 +55,8 @@
     "postcss-loader": "^3.0.0",
     "sass-loader": "^8.0.0",
     "vconsole": "^3.3.4",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "yaml-loader": "^0.5.0"
   },
   "eslintConfig": {
     "root": true,

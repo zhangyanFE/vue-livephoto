@@ -2,13 +2,16 @@
   <div class="banner-box" id="J_banner">
     <img :src="setBanner" alt="banner" />
     <div class="language-check">
-      <div class="language-check-name" @click="handleSelectClick">{{curLanguageName}}</div>
+      <div class="language-check-name" @click="handleSelectClick">
+        {{ curLanguageName }}
+      </div>
       <div class="language-check-select-box" v-if="showSelect">
         <span
           v-for="(item, index) in languageList"
           :key="index"
           @click="changeLanguage(item, index)"
-        >{{item.title}}</span>
+          >{{ item.title }}</span
+        >
       </div>
     </div>
   </div>
@@ -20,6 +23,7 @@ import { banner } from "@/assets/images/img";
 export default {
   data() {
     return {
+      locale: "zh-CN",
       curLanguageName: "中文",
       showSelect: false,
       languageList: [
@@ -34,9 +38,23 @@ export default {
       ]
     };
   },
+  watch: {
+    locale(val) {
+      console.log(`当前语言：${val}`);
+      this.$i18n.locale = val;
+    },
+    curLanguageName(val) {
+      this.curLanguageName = val;
+    }
+  },
   computed: {
     setBanner() {
       return banner;
+    }
+  },
+  mounted() {
+    if (localStorage.getItem("langName")) {
+      this.curLanguageName = localStorage.getItem("langName");
     }
   },
   methods: {
@@ -51,10 +69,16 @@ export default {
     changeLanguage(item, index) {
       this.curLanguageName = item.title;
       this.showSelect = false;
-      if (this.curLanguageName == "中文") {
-        this.changeLanguageState("zh-CN");
+      if ((this.$i18n.locale == "en-US")) {
+        // this.locale = "zh-CN";
+        this.$i18n.locale = "zh-CN";
+        localStorage.setItem("lang", "zh-CN");
+        localStorage.setItem("langName", "中文");
       } else {
-        this.changeLanguageState("en-US");
+        // this.locale = "en-US";
+        this.$i18n.locale = "en-US";
+        localStorage.setItem("lang", "en-US");
+        localStorage.setItem("langName", "英文");
       }
     }
   }

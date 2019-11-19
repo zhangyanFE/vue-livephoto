@@ -8,13 +8,12 @@
     >
       <span v-if="item.className == 'qrcode'">
         <i></i>
-        <em v-if="language == 'zh-CN'">{{ item.chinese }}</em>
-        <em v-else>{{ item.english }}</em>
+        <em>{{ $t('customName.tabBottomBar.qrcode') }}</em>
       </span>
       <router-link tag="span" :to="item.path" v-else>
         <i></i>
-        <em v-if="language == 'zh-CN'">{{ item.chinese }}</em>
-        <em v-else>{{ item.english }}</em>
+        <em v-if="index==0">{{ $t('customName.tabBottomBar.home') }}</em>
+        <em v-if="index==2">{{ $t('customName.tabBottomBar.my') }}</em>
       </router-link>
     </div>
   </div>

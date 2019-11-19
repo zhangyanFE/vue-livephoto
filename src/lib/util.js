@@ -611,3 +611,12 @@ export function checkPhone(phone) {
     return true;
   }
 }
+
+// 检测姓名
+export function checkName(name) {
+  if (/^[\u4e00-\u9fa5]{1,}((·[\u4e00-\u9fa5]{1,}){0,3})$/.test(name)) {
+    return true;
+  } else {
+    return false;
+  }
+}

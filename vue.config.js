@@ -1,5 +1,6 @@
 // 使用了webpack-chain链式API的调用方式，简化了对webpack配置的修改
 const path = require("path");
+const merge = require("deepmerge");
 const version = require("./package.json").version;
 
 function resolve(dir) {
@@ -36,6 +37,27 @@ module.exports = {
       .use("url-loader")
       .loader("url-loader")
       .tap(options => Object.assign(options, { limit: 10240 }));
+    config.module
+      .rule("vue")
+      .use("vue-loader")
+      .tap(options =>
+        merge(options, {
+          loaders: {
+            i18n: "@kazupon/vue-i18n-loader"
+          }
+        })
+      );
+    config.module
+      .rule("i18n")
+      .resourceQuery(/blockType=i18n/)
+      .type("javascript/auto")
+      .use("i18n")
+      .loader("@kazupon/vue-i18n-loader")
+      .end()
+      .use("yaml")
+      .loader("yaml-loader")
+      .end();
+
     // 压缩代码
     config.optimization.minimize(true);
 
