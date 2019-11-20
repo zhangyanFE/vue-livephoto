@@ -2,12 +2,16 @@
   <div class="screen-box">
     <div class="screen-tab">
       <div class="screen-tab-left">
-        <span>1000人已审阅</span>
+        <span>1000 {{ $t("customName.screen.peopleText") }}</span>
       </div>
       <div class="screen-tab-right" v-if="!puzzleState">
-        <span class="screen-tab-right--puzzle" @click="handlePuzzleClick">拼图</span>
+        <span class="screen-tab-right--puzzle" @click="handlePuzzleClick">{{
+          $t("customName.screen.puzzleBtnText")
+        }}</span>
         <em></em>
-        <span class="screen-tab-right--screen" @click="handleScreenClick">筛选</span>
+        <span class="screen-tab-right--screen" @click="handleScreenClick">{{
+          $t("customName.screen.screenBtnText")
+        }}</span>
       </div>
     </div>
 
@@ -21,19 +25,21 @@
       @close="handleClose"
     >
       <div class="puzzle-popup">
-        <p class="puzzle-type-title">请选择拼图样式</p>
+        <p class="puzzle-type-title">
+          {{ $t("customName.screen.puzzlePopup.puzzleTitle") }}
+        </p>
         <ul>
           <li @click="handleCheckLongPuzzle">
             <div class="col-all-center long">
               <img :src="puzzelLongImg" alt="长图" />
             </div>
-            <span>长图</span>
+            <span>{{ $t("customName.screen.puzzlePopup.puzzelLongGraph") }}</span>
           </li>
           <li @click="handleCheckGridPuzzle">
             <div class="col-all-center ninegrid">
               <img :src="puzzleGridImg" alt="九宫格" />
             </div>
-            <span>九宫格</span>
+            <span>{{ $t("customName.screen.puzzlePopup.puzzleGridGraph") }}</span>
           </li>
         </ul>
       </div>
@@ -47,15 +53,24 @@
       :close-icon="setCloseIcon"
     >
       <div class="popup-box">
-        <div class="popup-item-box" v-for="(item, index) in screenList" :key="index">
-          <div class="popup-item-title">{{item.title}}</div>
+        <div
+          class="popup-item-box"
+          v-for="(item, index) in screenList"
+          :key="index"
+        >
+          <div class="popup-item-title">{{ item.title }}</div>
           <div class="popup-item">
             <span
-              :class="[index == 0 && curIndex0 == key && 'active', index == 1 && curIndex1 == key && 'active', index == 2 && curIndex2 == key && 'active']"
+              :class="[
+                index == 0 && curIndex0 == key && 'active',
+                index == 1 && curIndex1 == key && 'active',
+                index == 2 && curIndex2 == key && 'active'
+              ]"
               v-for="(subItem, key) in item.list"
               :key="key"
               @click="handleItemClick(item.list, key, index)"
-            >{{subItem.title}}</span>
+              >{{ subItem.title }}</span
+            >
           </div>
         </div>
       </div>
@@ -77,7 +92,7 @@ export default {
       curIndex2: 0, // 展示
       screenList: [
         {
-          title: "排序",
+          title: this.$t('customName.screen.screenPopup.sort.title'),
           list: [
             {
               title: "时间轴",
@@ -145,6 +160,9 @@ export default {
     },
     puzzleGridImg() {
       return puzzleGrid;
+    },
+    lang() {
+
     }
   },
   methods: {
@@ -200,7 +218,8 @@ export default {
     }
   }
 };
-</script>>
+</script>
+>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {

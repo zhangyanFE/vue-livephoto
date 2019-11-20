@@ -12,13 +12,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
-  computed: {
-    ...mapState({
-      language: state => state.livephoto.i18n.locales
-    })
-  },
   data() {
     return {
       locale: "zh-CN"
@@ -58,7 +52,6 @@ $rem: 75;
     border-radius: 50%;
     margin-bottom: conver(17);
     box-shadow: 0px -2px 4px 0px rgba(83, 83, 83, 0.33);
-
     i {
       display: inline-block;
       width: conver(18);

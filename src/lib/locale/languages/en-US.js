@@ -10,6 +10,36 @@ export default {
       qrcode: "QRcode",
       my: "MY"
     },
+    screen: {
+      peopleText: "people have been reviewed",
+      puzzleBtnText: "Jigsaw puzzle",
+      screenBtnText: "screen",
+      puzzlePopup: {
+        puzzleTitle: "Choose a mosaic style",
+        puzzelLongGraph: "Long graph",
+        puzzleGridGraph: "squared paper for practicing calligraphy"
+      },
+      screenPopup: {
+        sort: {
+          title: 'SORT',
+          sort0: 'Time Axis',
+          sort1: 'Reverse Order'
+        },
+        category: {
+          title: 'CATEGORY',
+          category0: 'Wholee',
+          category1: 'Popular',
+          category2: 'Portrait',
+          category3: 'Scenery'
+        },
+        exhibition: {
+          title: 'EXHIBITION',
+          exhibition0: 'Two Column',
+          exhibition1: 'Three Column',
+          exhibition2: 'Four Column'
+        }
+      }
+    },
     personalCenter: {
       myCellTitle0: "Photo Collection",
       myCellTitle1: "Face recognition",

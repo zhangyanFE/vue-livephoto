@@ -10,6 +10,36 @@ export default {
       qrcode: "二维码",
       my: "我的"
     },
+    screen: {
+      peopleText: "人已审阅",
+      puzzleBtnText: "拼图",
+      screenBtnText: "筛选",
+      puzzlePopup: {
+        puzzleTitle: "请选择拼图样式",
+        puzzelLongGraph: "长图",
+        puzzleGridGraph: "九宫格"
+      },
+      screenPopup: {
+        sort: {
+          title: '排序',
+          sort0: '时间轴',
+          sort1: '倒序'
+        },
+        category: {
+          title: '类别',
+          category0: '全部',
+          category1: '热度',
+          category2: '人像',
+          category3: '物景'
+        },
+        exhibition: {
+          title: '展示',
+          exhibition0: '两列',
+          exhibition1: '三列',
+          exhibition2: '四列'
+        }
+      }
+    },
     personalCenter: {
       myCellTitle0: "相册收藏",
       myCellTitle1: "人脸识别",

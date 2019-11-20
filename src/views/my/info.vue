@@ -24,7 +24,6 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters } from "vuex";
 import TabBottomBar from "@/components/tabBottomBar";
 import VenueQrcode from "@/components/venueQrcode";
 
@@ -72,11 +71,6 @@ export default {
         }
       ]
     };
-  },
-  computed: {
-    ...mapState({
-      language: state => state.livephoto.i18n.locales
-    })
   },
   mounted() {
     

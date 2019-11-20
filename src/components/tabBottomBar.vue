@@ -19,7 +19,6 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -27,28 +26,17 @@ export default {
         {
           className: "home",
           path: "/",
-          chinese: "首页",
-          english: "HOME"
         },
         {
           className: "qrcode",
           path: "",
-          chinese: "二维码",
-          english: "QRcode"
         },
         {
           className: "my",
           path: "/my/info",
-          chinese: "我的",
-          english: "MY"
         }
       ]
     };
-  },
-  computed: {
-    ...mapState({
-      language: state => state.livephoto.i18n.locales
-    })
   },
   methods: {
     handleQrcodeClick(index) {
