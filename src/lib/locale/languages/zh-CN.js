@@ -10,6 +10,9 @@ export default {
       qrcode: "二维码",
       my: "我的"
     },
+    nodata: {
+      desc: "暂无信息"
+    },
     screen: {
       peopleText: "人已审阅",
       puzzleBtnText: "拼图",
@@ -21,24 +24,37 @@ export default {
       },
       screenPopup: {
         sort: {
-          title: '排序',
-          sort0: '时间轴',
-          sort1: '倒序'
+          title: "排序",
+          sort0: "时间轴",
+          sort1: "倒序"
         },
         category: {
-          title: '类别',
-          category0: '全部',
-          category1: '热度',
-          category2: '人像',
-          category3: '物景'
+          title: "类别",
+          category0: "全部",
+          category1: "热度",
+          category2: "人像",
+          category3: "物景"
         },
         exhibition: {
-          title: '展示',
-          exhibition0: '两列',
-          exhibition1: '三列',
-          exhibition2: '四列'
+          title: "展示",
+          exhibition0: "两列",
+          exhibition1: "三列",
+          exhibition2: "四列"
         }
       }
+    },
+    puzzleBtn: {
+      cancelBtnText: "取消",
+      sureBtnText: "开始拼图"
+    },
+    qrcodePopup: {
+      qrcodeTitle: "二维码",
+      qrcodeDesc: "对本相册的扫描分享"
+    },
+    lookForSb: {
+      lookUploadDesc1: "上传您的正面人脸照片后",
+      lookUploadDesc2: "可在“找我”中快速找到自己的照片",
+      lookUploadBtnText: "点击上传"
     },
     personalCenter: {
       myCellTitle0: "相册收藏",

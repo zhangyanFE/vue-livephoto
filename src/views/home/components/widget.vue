@@ -1,9 +1,9 @@
 <template>
   <div class="widget-box">
-    <div class="widget widget-seek">
+    <router-link class="widget widget-seek" tag="div" to="/my/face">
       <i></i>
       <span>{{ $t("customName.widget.seek") }}</span>
-    </div>
+    </router-link>
     <router-link class="widget widget-order" tag="div" to="/my/appointment">
       <i></i>
       <span>{{ $t("customName.widget.appointment") }}</span>

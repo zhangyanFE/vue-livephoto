@@ -8,10 +8,10 @@
       :close-icon="setWhiteCloseIcon"
     >
       <div class="venue-qrcode-box">
-        <div class="venue-qrcode-title">二维码</div>
+        <div class="venue-qrcode-title">{{$t('customName.qrcodePopup.qrcodeTitle')}}</div>
         <div class="venue-qrcode-img">
-          <img :src="setQrcodeImg" alt="二维码" />
-          <p>对本相册的扫描分享</p>
+          <img :src="setQrcodeImg" :alt="$t('customName.qrcodePopup.qrcodeTitle')" />
+          <p>{{$t('customName.qrcodePopup.qrcodeDesc')}}</p>
         </div>
       </div>
     </van-popup>

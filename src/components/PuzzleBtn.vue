@@ -8,10 +8,14 @@
  -->
 <template>
   <div class="puzzle-operate-box">
-    <div class="puzzle-button puzzle-cancel" @click="handleCancelClick">取消</div>
+    <div class="puzzle-button puzzle-cancel" @click="handleCancelClick">
+      {{ $t("customName.puzzleBtn.cancelBtnText") }}
+    </div>
     <div class="puzzle-button puzzle-sure" @click="handleSureClick">
-      开始拼图
-      <span class="puzzle-selected-count" v-if="selectedCount.length">{{selectedCount.length}}</span>
+      {{ $t("customName.puzzleBtn.sureBtnText") }}
+      <span class="puzzle-selected-count" v-if="selectedCount.length">{{
+        selectedCount.length
+      }}</span>
     </div>
   </div>
 </template>
@@ -36,11 +40,25 @@ export default {
     }
   }
 };
-</script>>
+</script>
+>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {
   @return $n * 2 / $rem + unquote("rem");
+}
+/* iphonex iphoneXS */
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .puzzle-operate-box {
+    padding-bottom: 34px;
+  }
+}
+
+/* iphoneXSMax iphoneXR */
+@media only screen and (device-width: 414px) and (device-height: 896px) {
+  .puzzle-operate-box {
+    padding-bottom: 34px;
+  }
 }
 .puzzle-operate-box {
   width: 100%;

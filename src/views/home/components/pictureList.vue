@@ -84,7 +84,7 @@
     </template>
     <div class="no-data" v-show="!pictureList.length">
       <i></i>
-      <p>暂无信息</p>
+      <p>{{$t('customName.nodata.desc')}}</p>
     </div>
   </div>
 </template>

@@ -13,12 +13,13 @@ import i18n from "@/lib/locale/i18n";
 import "styles/common.less";
 import "swiper/dist/css/swiper.css";
 
-import { Lazyload, ImagePreview, Popup, Toast, Icon } from "vant";
+import { Lazyload, ImagePreview, Popup, Toast, Icon, Uploader } from "vant";
 Vue.use(Lazyload)
   .use(ImagePreview)
   .use(Popup)
   .use(Toast)
-  .use(Icon);
+  .use(Icon)
+  .use(Uploader);
 
 Vue.config.productionTip = false;
 

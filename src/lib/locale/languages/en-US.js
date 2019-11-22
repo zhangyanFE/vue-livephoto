@@ -10,6 +10,9 @@ export default {
       qrcode: "QRcode",
       my: "MY"
     },
+    nodata: {
+      desc: "No information at all"
+    },
     screen: {
       peopleText: "people have been reviewed",
       puzzleBtnText: "Jigsaw puzzle",
@@ -21,24 +24,37 @@ export default {
       },
       screenPopup: {
         sort: {
-          title: 'SORT',
-          sort0: 'Time Axis',
-          sort1: 'Reverse Order'
+          title: "SORT",
+          sort0: "Time Axis",
+          sort1: "Reverse Order"
         },
         category: {
-          title: 'CATEGORY',
-          category0: 'Wholee',
-          category1: 'Popular',
-          category2: 'Portrait',
-          category3: 'Scenery'
+          title: "CATEGORY",
+          category0: "Wholee",
+          category1: "Popular",
+          category2: "Portrait",
+          category3: "Scenery"
         },
         exhibition: {
-          title: 'EXHIBITION',
-          exhibition0: 'Two Column',
-          exhibition1: 'Three Column',
-          exhibition2: 'Four Column'
+          title: "EXHIBITION",
+          exhibition0: "Two Column",
+          exhibition1: "Three Column",
+          exhibition2: "Four Column"
         }
       }
+    },
+    puzzleBtn: {
+      cancelBtnText: "cancel",
+      sureBtnText: "Start jigsaw puzzle"
+    },
+    qrcodePopup: {
+      qrcodeTitle: "QR code",
+      qrcodeDesc: "Scanning and sharing of this album"
+    },
+    lookForSb: {
+      lookUploadDesc1: "Upload your front face photo",
+      lookUploadDesc2: 'You can quickly find sb.photos in "Look for sb"',
+      lookUploadBtnText: "Click upload"
     },
     personalCenter: {
       myCellTitle0: "Photo Collection",
