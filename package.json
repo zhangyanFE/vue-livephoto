@@ -8,7 +8,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "deploy": "vue-cli-service build && gulp upload",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "push": "./git.sh"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -40,6 +41,7 @@
     "babel-plugin-import": "^1.12.2",
     "cli-color": "^1.4.0",
     "css-loader": "^3.2.0",
+    "debug": "^4.1.1",
     "deepmerge": "^4.2.2",
     "del": "^5.1.0",
     "eslint": "^5.16.0",

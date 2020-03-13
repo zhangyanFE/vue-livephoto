@@ -174,7 +174,6 @@ export default {
       this.previewImgList = [];
       this.listType.loading = true;
       this.listType.finished = false;
-      this.getList();
     },
     puzzleCancel() {
       // 取消拼图&选中的照片
