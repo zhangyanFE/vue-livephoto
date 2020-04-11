@@ -13,7 +13,17 @@ module.exports = {
   devServer: {
     port: 8000, // 设置端口号
     host: "0.0.0.0", // 配置可手机访问
-    open: false // 配置自动启动浏览器
+    open: false, // 配置自动启动浏览器
+    proxy: {
+      "/apis": {
+        target: "http://yun.vcysy.com", //对应自己的接口
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          "^/apis": ""
+        }
+      }
+    }
   },
   // 去掉文件名中的 hash
   // filenameHashing: false,

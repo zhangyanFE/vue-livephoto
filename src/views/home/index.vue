@@ -48,6 +48,7 @@
 </template>
 <script>
 import { mapMutations, mapState } from "vuex";
+import { getList } from "@/apis";
 import { closeIconImg } from "@/assets/images/img";
 import data from "@/mock/index";
 import TabBottomBar from "@/components/tabBottomBar";
@@ -119,6 +120,9 @@ export default {
     //   const dataURL = pc.clip();
     //   console.log(dataURL)
     // });
+    getList().then(res => {
+      console.log(res.data);
+    });
   },
   activated() {
     console.log("首页");
