@@ -601,3 +601,22 @@ export function addQueryString(params) {
   }
   return paramsData;
 }
+
+// 检测手机号
+export function checkPhone(phone) {
+  // var phone = document.getElementById('phone').value;
+  if (!/^1[3456789]\d{9}$/.test(phone)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+// 检测姓名
+export function checkName(name) {
+  if (/^[\u4e00-\u9fa5]{1,}((·[\u4e00-\u9fa5]{1,}){0,3})$/.test(name)) {
+    return true;
+  } else {
+    return false;
+  }
+}

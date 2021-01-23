@@ -8,19 +8,17 @@
     >
       <span v-if="item.className == 'qrcode'">
         <i></i>
-        <em v-if="language == 'zh-CN'">{{ item.chinese }}</em>
-        <em v-else>{{ item.english }}</em>
+        <em>{{ $t('customName.tabBottomBar.qrcode') }}</em>
       </span>
       <router-link tag="span" :to="item.path" v-else>
         <i></i>
-        <em v-if="language == 'zh-CN'">{{ item.chinese }}</em>
-        <em v-else>{{ item.english }}</em>
+        <em v-if="index==0">{{ $t('customName.tabBottomBar.home') }}</em>
+        <em v-if="index==2">{{ $t('customName.tabBottomBar.my') }}</em>
       </router-link>
     </div>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -28,28 +26,17 @@ export default {
         {
           className: "home",
           path: "/",
-          chinese: "首页",
-          english: "HOME"
         },
         {
           className: "qrcode",
           path: "",
-          chinese: "二维码",
-          english: "QRcode"
         },
         {
           className: "my",
           path: "/my/info",
-          chinese: "我的",
-          english: "MY"
         }
       ]
     };
-  },
-  computed: {
-    ...mapState({
-      language: state => state.livephoto.i18n.locales
-    })
   },
   methods: {
     handleQrcodeClick(index) {

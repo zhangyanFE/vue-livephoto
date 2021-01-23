@@ -48,21 +48,31 @@
 </template>
 <script>
 import { mapMutations, mapState } from "vuex";
+import { getList } from "@/apis";
 import { closeIconImg } from "@/assets/images/img";
 import data from "@/mock/index";
-import TabBottomBar from "@/components/TabBottomBar";
-import PuzzleBtn from "@/components/PuzzleBtn";
-import VenueQrcode from "@/components/VenueQrcode";
-import Banner from "./components/Banner";
-import TabNav from "./components/TabNav";
-import Screen from "./components/Screen";
-import PictureList from "./components/PictureList";
-import Widget from "./components/Widget";
+import TabBottomBar from "@/components/tabBottomBar";
+import PuzzleBtn from "@/components/puzzleBtn";
+import VenueQrcode from "@/components/venueQrcode";
+import Banner from "./components/banner";
+import TabNav from "./components/tabNav";
+import Screen from "./components/screen";
+import PictureList from "./components/pictureList";
+import Widget from "./components/widget";
 
 export default {
   data() {
     return {
-      navList: ["上海站", "天津站", "广州站", "郑州站", "杭州站"],
+      navList: [
+        "上海站",
+        "天津站",
+        "广州站",
+        "郑州站",
+        "杭州站",
+        "广州站",
+        "郑州站",
+        "杭州站"
+      ],
       pictureList: [],
       previewImgList: [],
       selectedCountList: [],
@@ -97,7 +107,7 @@ export default {
   },
   computed: {
     ...mapState({
-      puzzleState: state => state.livephoto.puzzleState,
+      puzzleState: state => state.livephoto.puzzleState
     }),
     setCloseIcon() {
       return closeIconImg;
@@ -110,6 +120,9 @@ export default {
     //   const dataURL = pc.clip();
     //   console.log(dataURL)
     // });
+    getList().then(res => {
+      console.log(res.data);
+    });
   },
   activated() {
     console.log("首页");
@@ -150,7 +163,6 @@ export default {
         }
         // 加载状态结束
         this.listType.loading = false;
-        console.log(this.pictureList);
         // }, 500);
 
         // 数据全部加载完成
@@ -166,7 +178,6 @@ export default {
       this.previewImgList = [];
       this.listType.loading = true;
       this.listType.finished = false;
-      this.getList();
     },
     puzzleCancel() {
       // 取消拼图&选中的照片

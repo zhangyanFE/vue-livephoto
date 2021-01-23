@@ -29,7 +29,7 @@ function jigsawInit() {
   // 自定义九宫格裁剪
   var diyNineW = Math.round(((winW * 100) / 750) * 6);
   if (window.location.href.indexOf("findme") < 0) {
-    diyNinegrid = new Mavatar({
+    diyNinegrid = new Mar({
       el: "#diyNinegridArea",
       width: diyNineW + "px",
       height: diyNineW + "px",

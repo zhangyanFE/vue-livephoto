@@ -17,13 +17,22 @@
             :type="item.w"
             @click="handleClick(item, index)"
           >
-            <div class="picture-img" v-lazy="item.src" :style="`backgroundImage:url(${item.src})`">
+            <div
+              class="picture-img"
+              v-lazy="item.src"
+              :style="`backgroundImage:url(${item.src})`"
+            >
               <div
                 class="picture-select"
-                :class="[item.selected && 'selected',selectedList.length>9 && !item.selected && 'unselected']"
+                :class="[
+                  item.selected && 'selected',
+                  selectedList.length > 9 && !item.selected && 'unselected'
+                ]"
                 v-if="puzzleState"
               >
-                <div :class="['picture-select-tag', item.selected && 'selected']">
+                <div
+                  :class="['picture-select-tag', item.selected && 'selected']"
+                >
                   <!-- <span>{{selectedNum}}</span> -->
                 </div>
               </div>
@@ -40,6 +49,7 @@
         :loop="loop"
         :async-close="asyncClose"
         :images="previewImgList"
+        className="cover-top-info"
         @change="onChange"
         @close="onClose"
       >
@@ -51,7 +61,9 @@
                 :type="pictureList[index].w"
                 @click.stop="handleStarClick(curIndex, index)"
               >
-                <i class="iconfont unstar" v-if="!pictureList[index].selected">&#xe61d;</i>
+                <i class="iconfont unstar" v-if="!pictureList[index].selected"
+                  >&#xe61d;</i
+                >
                 <i class="iconfont star" v-else>&#xe743;</i>
                 <em>收藏</em>
               </span>
@@ -72,7 +84,7 @@
     </template>
     <div class="no-data" v-show="!pictureList.length">
       <i></i>
-      <p>暂无信息</p>
+      <p>{{$t('customName.nodata.desc')}}</p>
     </div>
   </div>
 </template>
@@ -196,11 +208,25 @@ export default {
     }
   }
 };
-</script>>
+</script>
+>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {
   @return $n * 2 / $rem + unquote("rem");
+}
+/* iphonex iphoneXS */
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .picture-box {
+    margin-bottom: conver(83);
+  }
+}
+
+/* iphoneXSMax iphoneXR */
+@media only screen and (device-width: 414px) and (device-height: 896px) {
+  .picture-box {
+    margin-bottom: conver(83);
+  }
 }
 .picture-box {
   position: relative;
@@ -307,6 +333,8 @@ $rem: 75;
     }
   }
   /* 图片预览上方信息 */
+  .cover-top-info {
+  }
   .cover-info {
     display: flex;
     flex-direction: row;

@@ -4,34 +4,132 @@
     <div class="login-user">
       <div class="user-info login-user-phone">
         <i></i>
-        <input type="tel" class="phone-val" maxlength="11" placeholder="输入手机号" />
+        <input
+          v-model.trim="mobile"
+          type="tel"
+          name="mobile"
+          class="phone-val"
+          maxlength="11"
+          :placeholder="$t('customName.login.phonePlaceholder')"
+          @keyup.enter="checkMobile"
+          @blur="checkMobile"
+        />
       </div>
       <div class="user-info login-user-code">
         <i></i>
-        <input type="tel" class="code-val" maxlength="6" placeholder="输入验证码" />
-        <span class="send-code">发送验证码</span>
+        <input
+          v-model.trim="code"
+          type="tel"
+          name="code"
+          class="code-val"
+          maxlength="6"
+          :placeholder="$t('customName.login.codePlaceholder')"
+          @keyup.enter="checkCode"
+          @blur="checkCode"
+        />
+        <span
+          :class="['send-code', hasBeenSent && 'active']"
+          @click="handleSendCode"
+          >{{ sendText }}</span
+        >
       </div>
-      <div class="login-btn">
-        <span>登录</span>
+      <div class="login-btn" @click="handleLogin">
+        <span>{{ $t("customName.login.loginBtnText") }}</span>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { checkPhone } from "@/lib/util";
 export default {
   name: "login",
-  components: {},
   data() {
-    return {};
+    return {
+      mobile: "",
+      code: "",
+      timer: null,
+      sendText: "获取验证码",
+      count: 10,
+      countTime: 1000,
+      resetCount: 10,
+      hasBeenSent: false // 已发送验证码状态标识
+    };
   },
   computed: {},
   watch: {},
   created() {},
   activated() {},
   deactivated() {},
-  methods: {}
+  methods: {
+    phoneVal(e) {
+      let { value } = e.currentTarget;
+    },
+    codeVal() {},
+    checkMobile(type, flag) {
+      if (this.mobile.length !== 11) {
+        this.$toast("请输入11位手机号");
+        return false;
+      } else if (!checkPhone(this.mobile)) {
+        this.$toast("请输入正确的手机号");
+        return false;
+      } else {
+        return true;
+      }
+    },
+    checkCode() {
+      if (this.code.length !== 6) {
+        this.$toast("请输入6位验证码");
+        return false;
+      } else {
+        // ajax...
+        return true;
+      }
+    },
+    countDown() {
+      this.$toast("验证码发送成功");
+      clearInterval(this.timer);
+      this.timer = setInterval(() => {
+        this.count--;
+        this.hasBeenSent = true;
+        this.sendText = `${this.count}s后获取`;
+        if (this.count < 0) {
+          clearInterval(this.timer);
+          this.count = this.resetCount;
+          this.sendText = "获取验证码";
+          this.hasBeenSent = false;
+        }
+      }, this.countTime);
+    },
+    handleSendCode() {
+      if (this.checkMobile() && !this.hasBeenSent) {
+        // ajax...
+        this.countDown();
+      }
+    },
+    handleLogin() {
+      if (this.checkMobile() && this.checkCode()) {
+        // ajax...
+        this.$toast("登录成功");
+        let redirectUrl = this.$route.query.redirect;
+        if (redirectUrl) {
+          this.$router.push(decodeURIComponent(redirectUrl));
+        } else {
+          this.$router.push("/my");
+        }
+        this.handleEmpty();
+      }
+    },
+    handleEmpty() {
+      this.mobile = "";
+      this.code = "";
+      clearInterval(this.timer);
+      this.hasBeenSent = false;
+      this.sendText = "获取验证码";
+    }
+  }
 };
-</script>>
+</script>
+>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {
@@ -115,6 +213,10 @@ $rem: 75;
         font-weight: 500;
         text-align: center;
         color: #fff;
+        &.active {
+          background: #e6e6e6;
+          color: #fff;
+        }
       }
     }
     .login-btn {

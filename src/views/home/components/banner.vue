@@ -2,24 +2,27 @@
   <div class="banner-box" id="J_banner">
     <img :src="setBanner" alt="banner" />
     <div class="language-check">
-      <div class="language-check-name" @click="handleSelectClick">{{curLanguageName}}</div>
-      <div class="language-check-select-box" v-if="showSelect">
+      <div class="language-check-name" @click="changeLanguage">
+        {{ curLanguageName }}
+      </div>
+      <!-- <div class="language-check-select-box" v-if="showSelect">
         <span
           v-for="(item, index) in languageList"
           :key="index"
           @click="changeLanguage(item, index)"
-        >{{item.title}}</span>
-      </div>
+          >{{ item.title }}</span
+        >
+      </div> -->
     </div>
   </div>
 </template>
 <script>
-import { mapMutations } from "vuex";
 import { banner } from "@/assets/images/img";
 
 export default {
   data() {
     return {
+      locale: "zh-CN",
       curLanguageName: "中文",
       showSelect: false,
       languageList: [
@@ -34,13 +37,26 @@ export default {
       ]
     };
   },
+  watch: {
+    locale(val) {
+      console.log(`当前语言：${val}`);
+      this.$i18n.locale = val;
+    },
+    curLanguageName(val) {
+      this.curLanguageName = val;
+    }
+  },
   computed: {
     setBanner() {
       return banner;
     }
   },
+  mounted() {
+    if (localStorage.getItem("langName")) {
+      this.curLanguageName = localStorage.getItem("langName");
+    }
+  },
   methods: {
-    ...mapMutations("livephoto", ["changeLanguageState"]),
     handleSelectClick() {
       if (this.showSelect) {
         this.showSelect = false;
@@ -48,13 +64,17 @@ export default {
         this.showSelect = true;
       }
     },
-    changeLanguage(item, index) {
-      this.curLanguageName = item.title;
-      this.showSelect = false;
-      if (this.curLanguageName == "中文") {
-        this.changeLanguageState("zh-CN");
+    changeLanguage() {
+      if (this.$i18n.locale == "zh-CN") {
+        this.curLanguageName = "英文";
+        this.$i18n.locale = "en-US";
+        localStorage.setItem("lang", "en-US");
+        localStorage.setItem("langName", "英文");
       } else {
-        this.changeLanguageState("en-US");
+        this.curLanguageName = "中文";
+        this.$i18n.locale = "zh-CN";
+        localStorage.setItem("lang", "zh-CN");
+        localStorage.setItem("langName", "中文");
       }
     }
   }

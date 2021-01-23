@@ -1,35 +1,66 @@
-import axios from 'axios';
+import axios from "axios";
+import qs from "qs";
+import isPlainObject from "lodash/isPlainObject";
 
-// 输出方法
-export default function request(url, data = {}, method = 'post') {
-    // 请求的基本配置
-    const service = axios.create({
-        baseURL: process.env.API_ROOT, // 接口域名地址
-        headers: {
-            'Content-Type': method.toLowerCase() === 'get' ? 'application/x-www-form-urlencoded;charset=utf-8' : 'multipart/form-data'
-        }
-    })
-    return new Promise((resolve, reject) => {
-        const options = {
-            url,
-            method
-        }
-        if (method.toLowerCase() === 'get') {
-            options.params = data;
-        } else {
-            options.data = data;
-        }
-        service(options)
-            .then(res => {
-                if(res.data.retcode == 200) {
-                    // console.log(res);
-                    resolve(res.data); 
-                }
-            })
-            .catch(error => {
-                reject(error)
-                console.error(error);
-            })
-    })
+const http = axios.create({
+  baseURL: process.env.VUE_APP_HOST,
+  timeout: 1000 * 180,
+  headers: {'content-type': 'application/x-www-form-urlencoded'}
+  // withCredentials: true
+});
 
-}
+/**
+ * 请求拦截
+ */
+http.interceptors.request.use(
+  config => {
+    // 默认参数
+    var defaults = {};
+    // 防止缓存，GET请求默认带_t参数
+    if (config.method === "get") {
+      config.params = {
+        ...config.params,
+        ...{ _t: new Date().getTime() }
+      };
+    }
+    if (isPlainObject(config.params)) {
+      config.params = {
+        ...defaults,
+        ...config.params
+      };
+    }
+    if (isPlainObject(config.data)) {
+      config.data = {
+        ...defaults,
+        ...config.data
+      };
+      if (
+        /^application\/x-www-form-urlencoded/.test(
+          config.headers["content-type"]
+        )
+      ) {
+        config.data = qs.stringify(config.data);
+      }
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+/**
+ * 响应拦截
+ */
+http.interceptors.response.use(
+  response => {
+    if (response.data.code === "401" || response.data.code === "10001") {
+      return Promise.reject(response.data.message);
+    }
+    return response;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+export default http;

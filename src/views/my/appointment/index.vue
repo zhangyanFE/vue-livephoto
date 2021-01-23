@@ -1,45 +1,75 @@
 <template>
   <div class="appointment-box">
     <div class="appointment-title">
-      <p>全球领先的即时影像服务平台</p>
+      <p>{{ $t("customName.appointment.appointmentTitle") }}</p>
       <div class="appointment-title-line">
         <span class="appointment-title-line-block"></span>
-        <div class="photography-title">云摄影平台</div>
+        <div class="photography-title">
+          {{ $t("customName.appointment.photographyTitle") }}
+        </div>
       </div>
     </div>
     <div class="appointment-info">
       <div class="appointment-user">
         <div class="appointment-user-input user-name">
           <i></i>
-          <input type="text" placeholder="请输入联系人姓名" />
+          <input
+            v-model="name"
+            type="text"
+            name="name"
+            :placeholder="$t('customName.appointment.namePlaceholder')"
+            @blur="checkNames"
+          />
         </div>
         <div class="appointment-user-input user-phone">
           <i></i>
-          <input type="tel" maxlength="11" placeholder="请输入手机号" />
+          <input
+            v-model.trim="mobile"
+            type="tel"
+            name="mobile"
+            maxlength="11"
+            :placeholder="$t('customName.appointment.phonePlaceholder')"
+            @blur="checkMobile"
+          />
         </div>
         <div class="appointment-user-input user-code">
           <i></i>
-          <input type="tel" maxlength="6" placeholder="请输入验证码" />
-          <span class="send-code">获取验证码</span>
+          <input
+            v-model.trim="code"
+            type="tel"
+            name="code"
+            maxlength="6"
+            :placeholder="$t('customName.appointment.codePlaceholder')"
+            @blur="checkCode"
+          />
+          <span
+            :class="['send-code', hasBeenSent && 'active']"
+            @click="handleSendCode"
+            >{{ sendText }}</span
+          >
         </div>
       </div>
-      <div class="submit-btn">
-        <span>提交信息</span>
-        <p>云摄影客服将在2小时内与您联系</p>
+      <div class="submit-btn" @click="handleSubmit">
+        <span>{{ $t("customName.appointment.submitBtnText") }}</span>
+        <p>{{ $t("customName.appointment.kefuTip") }}</p>
       </div>
       <div class="dashed-line"></div>
       <div class="cooperative-service">
         <div class="cooperative-service-left">
           <div class="cooperative-tel">
-            <span class="cooperative-tel-title">合作热线</span>
+            <span class="cooperative-tel-title">{{
+              $t("customName.appointment.cooperationHotline")
+            }}</span>
             <span class="cooperative-tel-number">400-6162-518</span>
             <a href="tel:400-6162-518" class="cooperative-tel-call"></a>
           </div>
         </div>
         <div class="cooperative-service-right">
           <div class="cooperative-account">
-            <span>关注服务号</span>
-            <span>了解更多</span>
+            <span>{{
+              $t("customName.appointment.attentionServiceNumber")
+            }}</span>
+            <span>{{ $t("customName.appointment.learnMore") }}</span>
             <div class="cooperative-account-qrcode"></div>
           </div>
         </div>
@@ -47,10 +77,111 @@
       <div class="guide">
         <i class="iconfont">&#xe73e;</i>
       </div>
-      <div class="guide-tip">行业标准定义者</div>
+      <div class="guide-tip">{{ $t("customName.appointment.guideTip") }}</div>
     </div>
   </div>
 </template>
+<script>
+import { mapState } from "vuex";
+import { checkName, checkPhone } from "@/lib/util";
+
+export default {
+  name: "appointment",
+  data() {
+    return {
+      name: "",
+      mobile: "",
+      code: "",
+      timer: null,
+      sendText: "获取验证码",
+      count: 10,
+      countTime: 1000,
+      resetCount: 10,
+      hasBeenSent: false // 已发送验证码状态标识
+    };
+  },
+  computed: {
+    ...mapState({
+      language: state => state.livephoto.i18n.locales
+    })
+  },
+  methods: {
+    checkNames() {
+      if (this.name == "") {
+        this.$toast("请输入姓名");
+        return false;
+      } else if (!checkName(this.name)) {
+        this.$toast("姓名输入不正确，请重新输入");
+        return false;
+      } else {
+        return true;
+      }
+    },
+    checkMobile() {
+      if (this.mobile.length !== 11) {
+        this.$toast("请输入11位手机号");
+        return false;
+      } else if (!checkPhone(this.mobile)) {
+        this.$toast("请输入正确的手机号");
+        return false;
+      } else {
+        return true;
+      }
+    },
+    checkCode() {
+      if (this.code.length !== 6) {
+        this.$toast("请输入6位验证码");
+        return false;
+      } else {
+        // ajax...
+        return true;
+      }
+    },
+    countDown() {
+      this.$toast("验证码发送成功");
+      clearInterval(this.timer);
+      this.timer = setInterval(() => {
+        this.count--;
+        this.hasBeenSent = true;
+        this.sendText = `${this.count}s后获取`;
+        if (this.count < 0) {
+          clearInterval(this.timer);
+          this.count = this.resetCount;
+          this.sendText = "获取验证码";
+          this.hasBeenSent = false;
+        }
+      }, this.countTime);
+    },
+    handleSendCode() {
+      if (this.checkMobile() && !this.hasBeenSent) {
+        // ajax...
+        this.countDown();
+      }
+    },
+    handleSubmit() {
+      if (this.checkNames() && this.checkMobile() && this.checkCode()) {
+        // ajax...
+        this.$toast("提交成功");
+        let redirectUrl = this.$route.query.redirect;
+        if (redirectUrl) {
+          this.$router.push(decodeURIComponent(redirectUrl));
+        } else {
+          this.$router.push("/");
+        }
+        this.handleEmpty();
+      }
+    },
+    handleEmpty() {
+      this.name = "";
+      this.mobile = "";
+      this.code = "";
+      clearInterval(this.timer);
+      this.hasBeenSent = false;
+      this.sendText = "获取验证码";
+    }
+  }
+};
+</script>
 <style lang="scss" scoped>
 $rem: 75;
 @function conver($n) {
@@ -174,6 +305,10 @@ $rem: 75;
             font-family: SourceHanSansCN;
             font-weight: 400;
             color: #3c73eb;
+            &.active {
+              background: #e6e6e6;
+              color: #fff;
+            }
           }
         }
       }
@@ -264,7 +399,7 @@ $rem: 75;
             height: conver(67);
             background: url("./images/qrcode-icon.png") no-repeat;
             background-size: conver(67) auto;
-            margin-top: conver(6);
+            margin: conver(6) auto 0 auto;
           }
         }
       }

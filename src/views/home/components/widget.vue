@@ -1,25 +1,24 @@
 <template>
   <div class="widget-box">
-    <div class="widget widget-seek">
+    <router-link class="widget widget-seek" tag="div" to="/my/face">
       <i></i>
-      <span v-if="language == 'zh-CN'">找人</span>
-      <span v-else>Seek</span>
-    </div>
+      <span>{{ $t("customName.widget.seek") }}</span>
+    </router-link>
     <router-link class="widget widget-order" tag="div" to="/my/appointment">
       <i></i>
-      <span v-if="language == 'zh-CN'">预约</span>
-      <span v-else>Order</span>
+      <span>{{ $t("customName.widget.appointment") }}</span>
     </router-link>
   </div>
 </template>
+
 <script>
-import { mapState } from "vuex";
 export default {
-  computed: {
-    ...mapState({
-      language: state => state.livephoto.i18n.locales
-    })
-  }
+  data() {
+    return {
+      locale: "zh-CN"
+    };
+  },
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>
@@ -30,14 +29,14 @@ $rem: 75;
 /* iphonex iphoneXS */
 @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
   .widget-box {
-    bottom: conver(80)!important;
+    bottom: conver(80) !important;
   }
 }
 
 /* iphoneXSMax iphoneXR */
 @media only screen and (device-width: 414px) and (device-height: 896px) {
   .widget-box {
-    bottom: conver(80)!important;
+    bottom: conver(80) !important;
   }
 }
 
@@ -53,7 +52,6 @@ $rem: 75;
     border-radius: 50%;
     margin-bottom: conver(17);
     box-shadow: 0px -2px 4px 0px rgba(83, 83, 83, 0.33);
-
     i {
       display: inline-block;
       width: conver(18);

@@ -26,7 +26,7 @@ const router = new Router({
         {
           path: "info",
           component: () => import("./views/my/info"),
-          name: "个人中心",
+          name: "info",
           meta: {
             keepAlive: true,
             title: "我的"
